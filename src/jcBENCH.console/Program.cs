@@ -8,34 +8,57 @@ namespace jcBENCH.console
 {
     class Program
     {
+        static void WriteCenteredText(string text, ConsoleColor backgroundColor, ConsoleColor foregroundColor = ConsoleColor.White)
+        {
+            Console.BackgroundColor = backgroundColor;
+            Console.ForegroundColor = foregroundColor;
+
+            var centerPosition = ((Console.WindowWidth - text.Length) / 2);
+
+            text = text.PadLeft(Console.WindowWidth - centerPosition, ' ');
+
+            text = text.PadRight(Console.WindowWidth, ' ');
+
+            Console.Write(text);
+        }
+
         static void Main(string[] args)
         {
+            Console.SetWindowSize(120, 40);
+
+            Console.BackgroundColor = ConsoleColor.Black;
+
             Console.Clear();
 
-            Console.WriteLine($"{Constants.APP_NAME} {Constants.APP_VERSION} (.NET Core 2.0 Edition)");
-            Console.WriteLine("(C) 2012-2018 Jarred Capellman");
-            Console.WriteLine($"Source code is available on https://github.com/jcapellman/jcBENCH{System.Environment.NewLine}");
+            WriteCenteredText($"{Constants.APP_NAME} {Constants.APP_VERSION} (.NET Core 2.0 Edition)", ConsoleColor.DarkRed);
+            WriteCenteredText("(C) 2012-2018 Jarred Capellman", ConsoleColor.DarkRed);
 
+            WriteCenteredText($"Source code is available on https://github.com/jcapellman/jcBENCH", ConsoleColor.DarkRed);
+
+            Console.BackgroundColor = ConsoleColor.Black;
+            
             var deviceInformation = DeviceInformation.GetInformation();
 
-            Console.WriteLine($"Operating System: {deviceInformation.OperatingSystem}{System.Environment.NewLine}");
+            Console.WriteLine($"{Environment.NewLine}Operating System: {deviceInformation.OperatingSystem}{Environment.NewLine}");
 
             var (manufacturer, model, numberCores, frequency, architecture) = deviceInformation.GetCpuInformation();
 
+            Console.WriteLine("---------------");
             Console.WriteLine("CPU Information");
             Console.WriteLine("---------------");
             Console.WriteLine($"Manufacturer: {manufacturer}");
             Console.WriteLine($"Model: {model}");
             Console.WriteLine($"Count: {numberCores}x{frequency}");
             Console.WriteLine($"Architecture: {architecture}");
-            Console.WriteLine($"---------------{System.Environment.NewLine}");
+            Console.WriteLine($"---------------{Environment.NewLine}");
             
             var benchmark = new HashingBenchmark();
 
             var benchmarkResult = benchmark.Run();
 
-            Console.WriteLine($"Benchmark Score: {benchmarkResult}");
+            Console.WriteLine($"Hashing Benchmark Score: {benchmarkResult}{Environment.NewLine}");
 
+            Console.WriteLine();
             Console.ReadKey();
         }
     }

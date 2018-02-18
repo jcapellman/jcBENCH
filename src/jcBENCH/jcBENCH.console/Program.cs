@@ -14,8 +14,12 @@ namespace jcBENCH.console
             Console.WriteLine($"{Constants.APP_NAME} {Constants.APP_VERSION} (.NET Core Edition)");
             Console.WriteLine("(C) 2012-2018 Jarred Capellman");
             Console.WriteLine($"Source code is available on https://github.com/jcapellman/jcBENCH{System.Environment.NewLine}");
-            
-            var cpuInformation = new DeviceInformation().GetCPUInformation();
+
+            var deviceInformation = new DeviceInformation();
+
+            Console.WriteLine($"Operating System: {}")
+
+            var cpuInformation = deviceInformation.GetCPUInformation();
 
             Console.WriteLine("CPU Information");
             Console.WriteLine("---------------");

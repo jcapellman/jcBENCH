@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -12,7 +11,7 @@ namespace jcBENCH.lib
     {
         public static BaseDeviceInformation GetInformation()
         {
-            var deviceInformationImplementations = (List<BaseDeviceInformation>)Assembly.GetAssembly(typeof(DeviceInformation))
+            var deviceInformationImplementations = Assembly.GetAssembly(typeof(DeviceInformation))
                 .DefinedTypes.Where(a => a.BaseType == typeof(BaseDeviceInformation) && !a.IsAbstract)
                 .Select(b => (BaseDeviceInformation)Activator.CreateInstance(b)).ToList();
 

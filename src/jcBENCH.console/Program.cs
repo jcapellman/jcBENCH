@@ -1,6 +1,7 @@
 ﻿using System;
 
 using jcBENCH.lib;
+using jcBENCH.lib.Benchmarks;
 using jcBENCH.lib.Common;
 
 namespace jcBENCH.console
@@ -29,13 +30,13 @@ namespace jcBENCH.console
             Console.WriteLine($"Architecture: {architecture}");
             Console.WriteLine($"---------------{System.Environment.NewLine}");
             
-            Console.WriteLine($"Running Benchmark....{System.Environment.NewLine}");
-            
-            var benchmark = new Benchmark();
+            var benchmark = new HashingBenchmark();
 
             var benchmarkResult = benchmark.Run();
 
-            Console.WriteLine($"Benchmark completed in {benchmarkResult.benchmarkDuration} seconds (hash of result {benchmarkResult.benchmarkHash}");
+            Console.WriteLine($"Benchmark Score: {benchmarkResult}");
+
+            Console.ReadKey();
         }
     }
 }

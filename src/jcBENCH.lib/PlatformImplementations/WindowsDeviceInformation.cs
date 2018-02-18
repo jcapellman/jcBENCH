@@ -9,7 +9,7 @@ namespace jcBENCH.lib.PlatformImplementations
 
         public override string OperatingSystem => RuntimeInformation.OSDescription;
 
-        public override (string manufacturer, string model, int numberCores, string frequency, string architecture) GetCPUInformation()
+        public override (string manufacturer, string model, int numberCores, string frequency, string architecture) GetCpuInformation()
         {
             return (string.Empty, string.Empty, Environment.ProcessorCount, string.Empty, RuntimeInformation.OSArchitecture.ToString());
         }

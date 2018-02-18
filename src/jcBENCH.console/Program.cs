@@ -11,22 +11,22 @@ namespace jcBENCH.console
         {
             Console.Clear();
 
-            Console.WriteLine($"{Constants.APP_NAME} {Constants.APP_VERSION} (.NET Core Edition)");
+            Console.WriteLine($"{Constants.APP_NAME} {Constants.APP_VERSION} (.NET Core 2.0 Edition)");
             Console.WriteLine("(C) 2012-2018 Jarred Capellman");
             Console.WriteLine($"Source code is available on https://github.com/jcapellman/jcBENCH{System.Environment.NewLine}");
 
-            var deviceInformation = new DeviceInformation();
+            var deviceInformation = DeviceInformation.GetInformation();
 
-            Console.WriteLine($"Operating System: {}")
+            Console.WriteLine($"Operating System: {deviceInformation.OperatingSystem}{System.Environment.NewLine}");
 
-            var cpuInformation = deviceInformation.GetCPUInformation();
+            var (manufacturer, model, numberCores, frequency, architecture) = deviceInformation.GetCpuInformation();
 
             Console.WriteLine("CPU Information");
             Console.WriteLine("---------------");
-            Console.WriteLine($"Manufacturer: {cpuInformation.manufacturer}");
-            Console.WriteLine($"Model: {cpuInformation.model}");
-            Console.WriteLine($"Count: {cpuInformation.numberCores}x{cpuInformation.frequency}");
-            Console.WriteLine($"Architecture: {cpuInformation.architecture}");
+            Console.WriteLine($"Manufacturer: {manufacturer}");
+            Console.WriteLine($"Model: {model}");
+            Console.WriteLine($"Count: {numberCores}x{frequency}");
+            Console.WriteLine($"Architecture: {architecture}");
             Console.WriteLine($"---------------{System.Environment.NewLine}");
             
             Console.WriteLine($"Running Benchmark....{System.Environment.NewLine}");

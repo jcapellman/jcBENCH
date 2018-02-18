@@ -8,6 +8,6 @@ namespace jcBENCH.lib.PlatformImplementations
 
         public abstract string OperatingSystem { get; }
 
-        public abstract (string manufacturer, string model, int numberCores, string frequency, string architecture) GetCPUInformation();
+        public abstract (string manufacturer, string model, int numberCores, string frequency, string architecture) GetCpuInformation();
     }
 }

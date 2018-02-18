@@ -8,22 +8,15 @@ using jcBENCH.lib.PlatformImplementations;
 
 namespace jcBENCH.lib
 {
-    public class DeviceInformation
+    public static class DeviceInformation
     {
-        public (string manufacturer, string model, int numberCores, string frequency, string architecture) GetCPUInformation()
+        public static BaseDeviceInformation GetInformation()
         {
             var deviceInformationImplementations = (List<BaseDeviceInformation>)Assembly.GetAssembly(typeof(DeviceInformation))
                 .DefinedTypes.Where(a => a.BaseType == typeof(BaseDeviceInformation) && !a.IsAbstract)
                 .Select(b => (BaseDeviceInformation)Activator.CreateInstance(b)).ToList();
 
-            var deviceImplementation = deviceInformationImplementations.FirstOrDefault(a => RuntimeInformation.IsOSPlatform(a.Platform));
-
-            if (deviceImplementation == null)
-            {
-                return (string.Empty, string.Empty, 0, string.Empty, string.Empty);
-            }
-
-            return deviceImplementation.GetCPUInformation();
+            return deviceInformationImplementations.FirstOrDefault(a => RuntimeInformation.IsOSPlatform(a.Platform));
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace jcBENCH.webapi
+namespace jcBENCH.web
 {
     public class Program
     {

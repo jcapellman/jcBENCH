@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27413.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jcBENCH.console", "jcBENCH.console\jcBENCH.console.csproj", "{36F7CEFD-C5CC-4C6A-8110-566BE9668732}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jcBENCH.console", "jcBENCH.console\jcBENCH.console.csproj", "{36F7CEFD-C5CC-4C6A-8110-566BE9668732}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jcBENCH.lib", "jcBENCH.lib\jcBENCH.lib.csproj", "{928FF105-AAFF-4B91-94D4-CC0CC5418D3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jcBENCH.lib", "jcBENCH.lib\jcBENCH.lib.csproj", "{928FF105-AAFF-4B91-94D4-CC0CC5418D3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jcBENCH.webapi", "jcBENCH.webapi\jcBENCH.webapi.csproj", "{37F608AC-6A11-42C1-9D1A-801D29A0C339}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jcBENCH.web", "jcBENCH.web\jcBENCH.web.csproj", "{37F608AC-6A11-42C1-9D1A-801D29A0C339}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

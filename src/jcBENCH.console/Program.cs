@@ -33,7 +33,7 @@ namespace jcBENCH.console
             WriteCenteredText($"{Constants.APP_NAME} {Constants.APP_VERSION} (.NET Core 2.0 Edition)", ConsoleColor.DarkRed);
             WriteCenteredText("(C) 2012-2018 Jarred Capellman", ConsoleColor.DarkRed);
 
-            WriteCenteredText($"Source code is available on https://github.com/jcapellman/jcBENCH", ConsoleColor.DarkRed);
+            WriteCenteredText("Source code is available on https://github.com/jcapellman/jcBENCH", ConsoleColor.DarkRed);
 
             Console.BackgroundColor = ConsoleColor.Black;
             

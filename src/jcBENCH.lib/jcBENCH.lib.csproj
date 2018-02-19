@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Microsoft.Win32.Registry">
       <HintPath>..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.win32.registry\4.4.0\ref\netstandard2.0\Microsoft.Win32.Registry.dll</HintPath>
     </Reference>

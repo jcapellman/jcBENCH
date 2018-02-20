@@ -1,24 +1,27 @@
 ﻿@model List<jcBENCH.lib.Objects.TopResultsListingItem>
 
 <div class="center-block">
-    <h2 class="text-center" style="font-weight: 900">jcBENCH</h2>
+    <h2 class="text-center">jcBENCH</h2>
 
-    <table>
-        <tr>
-            <th>Rank</th>
-            <th>Manufacturer</th>
-            <th>Model</th>
-            <th>Benchmark Result</th>
-        </tr>
-        
-        @for (int x = 1; x < Model.Count; x++)
+    <table class="table table-hover table-responsive text-left">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Benchmark Result</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for (int x = 0; x < Model.Count; x++)
         {
             <tr>
-                <td>@x</td>
+                <td>@(x+1)</td>
                 <td>@Model[x].CPUManufacturer</td>
                 <td>@Model[x].CPUModelName</td>
                 <td>@Model[x].BenchmarkResult</td>
             </tr>
         }
+        </tbody>
     </table>
 </div>

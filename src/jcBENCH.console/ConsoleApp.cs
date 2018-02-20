@@ -64,7 +64,7 @@ namespace jcBENCH.console
 
             var key = Console.ReadKey();
 
-            if (key.Key == ConsoleKey.N)
+            if (key.Key != ConsoleKey.Y)
             {
                 return;
             }

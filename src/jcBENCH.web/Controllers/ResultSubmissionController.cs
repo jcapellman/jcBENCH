@@ -25,6 +25,7 @@ namespace jcBENCH.web.Controllers
             var resultItem = new Results
             {
                 BenchmarkID = submissionItem.BenchmarkID,
+                BenchmarkResult = submissionItem.BenchmarkResult,
                 CPUArchitecture = submissionItem.CPUArchitecture,
                 CPUFrequency = submissionItem.CPUFrequency,
                 CPUManufacturer = submissionItem.CPUManufacturer,

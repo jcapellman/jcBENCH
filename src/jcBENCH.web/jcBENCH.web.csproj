@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Managers\" />
-    <Folder Include="Views\Home\" />
-    <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

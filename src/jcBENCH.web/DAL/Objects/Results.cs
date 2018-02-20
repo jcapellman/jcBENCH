@@ -39,5 +39,8 @@ namespace jcBENCH.web.DAL.Objects
 
         [Required]
         public string CPUArchitecture { get; set; }
+
+        [Required]
+        public int BenchmarkResult { get; set; }
     }
 }

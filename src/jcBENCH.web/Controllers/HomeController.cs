@@ -1,11 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+
+using jcBENCH.lib.Objects;
+using jcBENCH.web.DAL;
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace jcBENCH.web.Controllers
 {
-    public class HomeController
+    public class HomeController : Controller
     {
+        private MainDbContext dbContext;
+
+        public HomeController(MainDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
+        public ActionResult Index()
+        {
+            var topResults = dbContext.Results.OrderByDescending(a => a.BenchmarkResult).Take(10).Select(row => new TopResultsListingItem
+            {
+                BenchmarkResult = row.BenchmarkResult,
+                CPUManufacturer = row.CPUManufacturer,
+                CPUModelName = row.CPUName
+            }).ToList();
+
+            return View(topResults);
+        }
     }
 }

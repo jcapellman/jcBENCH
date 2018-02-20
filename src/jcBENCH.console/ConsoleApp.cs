@@ -60,7 +60,7 @@ namespace jcBENCH.console
 
             Console.WriteLine($"Hashing Benchmark Score: {benchmarkResult}{Environment.NewLine}");
 
-            Console.WriteLine($"Do you want to submit your result (y/n)?");
+            Console.WriteLine("Do you want to submit your result (y/n)?");
 
             var key = Console.ReadKey();
 

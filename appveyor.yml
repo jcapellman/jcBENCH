@@ -1,15 +1,17 @@
 version: 2018.2.{build}
 image: Visual Studio 2017 Preview
-branches:
-  only:
-  - master
-before_build:
-  - cmd: dotnet --version
-  - cmd: dotnet restore ./src/jcBENCH.console/jcBENCH.console.csproj --verbosity m
-build_script:
-  - cmd: dotnet publish -c Release ./src/jcBENCH.console/jcBENCH.console.csproj
+configuration: Release
+platform: Any CPU
+build:
+  project: /src/jcBENCH.console/jcBENCH.console.csproj
+  verbosity: minimal
+after_build:
+- cmd: 7z a jcBENCH.zip %APPVEYOR_BUILD_FOLDER%\src\jcBENCH.console\Release\netcoreapp2.0\publish\*.*
 artifacts:
-  - path: jcBENCH.zip
-    name: jcBENCH
-    type: zip
-  
+- path: ./src/jcBENCH.console/bin/Release/netcoreapp2.0/publish/jcBENCH.zip
+  name: Release
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: QXEzBLTmKo/DOGKtKUweGfTj8IG/DltPwJk+O4om80fFlNUySA3ZC/rQfnsKNUq5
+  force_update: true

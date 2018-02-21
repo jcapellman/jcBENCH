@@ -9,7 +9,7 @@ before_build:
 build_script:
   - cmd: dotnet publish -c Release ./src/jcBENCH.console/jcBENCH.console.csproj
 artifacts:
-  - path: jcBENCH_{version}.zip
+  - path: jcBENCH.zip
     name: jcBENCH
     type: zip
   

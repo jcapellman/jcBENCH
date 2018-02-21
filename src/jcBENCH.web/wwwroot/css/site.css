@@ -18,3 +18,7 @@ footer {
     text-align: center;
     font-weight: bold;
 }
+
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+    background-color: #3e3e3e;
+}

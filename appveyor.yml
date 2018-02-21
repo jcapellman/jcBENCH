@@ -8,3 +8,8 @@ before_build:
   - cmd: dotnet restore ./src/jcBENCH.console/jcBENCH.console.csproj --verbosity m
 build_script:
   - cmd: dotnet publish -c Release ./src/jcBENCH.console/jcBENCH.console.csproj
+artifacts:
+  - path: jcBENCH_{version}.zip
+    name: jcBENCH
+    type: zip
+  

@@ -9,9 +9,9 @@ build:
   project: /src/jcBENCH.console/jcBENCH.console.csproj
   verbosity: minimal
 after_build:
-- cmd: 7z a jcBENCH.zip %APPVEYOR_BUILD_FOLDER%\src\jcBENCH.console\Release\netcoreapp2.0\publish\*.*
+- cmd: 7z a jcBENCH.zip ./src/jcBENCH.console/bin/Release/netcoreapp2.0/publish/*.*
 artifacts:
-- path: ./src/jcBENCH.console/bin/Release/netcoreapp2.0/publish/*.*
+- path: ./src/jcBENCH.console/bin/Release/netcoreapp2.0/publish/jcBENCH.zip
 deploy:
 - provider: GitHub
   auth_token:

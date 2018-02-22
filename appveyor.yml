@@ -14,14 +14,14 @@ after_build:
 - cmd: 7z a jcBENCH.zip ./src/jcBENCH.console/bin/Release/netcoreapp2.0/publish/*.*
 artifacts:
 - path: ./jcBENCH.zip
+  name: jcBENCH
 deploy:
 - provider: GitHub
-  tag: v2$(appveyor_build_version)
-  release: v2$(appveyor_build_version)
+  tag: v$(appveyor_build_version)
+  release: v$(appveyor_build_version)
   description: jcBENCH-$(appveyor_build_version)
   auth_token:
     secure: QXEzBLTmKo/DOGKtKUweGfTj8IG/DltPwJk+O4om80fFlNUySA3ZC/rQfnsKNUq5
   force_update: true
-  artifact: ./jcBENCH.zip
   on:
     branch: master

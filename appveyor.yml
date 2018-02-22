@@ -8,6 +8,8 @@ before_build:
 build:
   project: /src/jcBENCH.console/jcBENCH.console.csproj
   verbosity: minimal
+before_package:
+- cmd: dotnet publish -c Release ./src/jcBENCH.console/jcBENCH.console.csproj
 after_build:
 - cmd: 7z a jcBENCH.zip ./src/jcBENCH.console/bin/Release/netcoreapp2.0/publish/*.*
 artifacts:

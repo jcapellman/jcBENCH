@@ -2,7 +2,6 @@ version: 2018.2.{build}
 configuration:
 - Release
 image: Visual Studio 2017 Preview
-configuration: Release
 platform: Any CPU
 before build:
   - cmd: dotnet restore ./src/jcBENCH.console/jcBENCH.console.csproj --verbosity m

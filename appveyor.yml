@@ -13,7 +13,7 @@ before_package:
 after_build:
 - cmd: 7z a jcBENCH.zip ./src/jcBENCH.console/bin/Release/netcoreapp2.0/publish/*.*
 artifacts:
-- path: ./src/jcBENCH.console/bin/Release/netcoreapp2.0/publish/jcBENCH.zip
+- path: ./jcBENCH.zip
 deploy:
 - provider: GitHub
   auth_token:

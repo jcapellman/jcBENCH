@@ -4,7 +4,7 @@ configuration:
 image: Visual Studio 2017 Preview
 platform: Any CPU
 before build:
-  - cmd: dotnet restore ./src/jcBENCH.console/jcBENCH.console.csproj --verbosity m
+- cmd: dotnet restore ./src/jcBENCH.console/jcBENCH.console.csproj --verbosity m
 build:
   project: /src/jcBENCH.console/jcBENCH.console.csproj
   verbosity: minimal

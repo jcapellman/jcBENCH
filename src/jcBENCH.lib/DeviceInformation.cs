@@ -10,7 +10,7 @@ namespace jcBENCH.lib
 {
     public static class DeviceInformation
     {
-        private static BaseDeviceInformation GetDeviceInformation(OSPlatform osPlatform)
+        public static BaseDeviceInformation GetInformation(OSPlatform osPlatform)
         {
             var fileName = $"jcBENCH.lib.{osPlatform.ToString().ToLower()}.dll";
 
@@ -28,19 +28,6 @@ namespace jcBENCH.lib
 
             return assembly.DefinedTypes.Where(a => a.BaseType == typeof(BaseDeviceInformation) && !a.IsAbstract)
                 .Select(b => (BaseDeviceInformation)Activator.CreateInstance(b)).FirstOrDefault(c => RuntimeInformation.IsOSPlatform(osPlatform));
-
-        }
-
-        public static BaseDeviceInformation GetInformation()
-        {
-            OSPlatform osPlatform;
-            
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                osPlatform = OSPlatform.Windows;
-            }
-
-            return GetDeviceInformation(osPlatform);
         }
     }
 }

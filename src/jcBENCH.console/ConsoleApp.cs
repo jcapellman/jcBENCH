@@ -11,6 +11,20 @@ namespace jcBENCH.console
 {
     public class ConsoleApp
     {
+        private OSPlatform CurrentPlaform {
+            get {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                    return OSPlatform.Windows;
+                }
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
+                    return OSPlatform.OSX;
+                }
+
+                return OSPlatform.Linux;
+            }
+        }
+
         private void WriteCenteredText(string text, ConsoleColor backgroundColor, ConsoleColor foregroundColor = ConsoleColor.White)
         {
             Console.BackgroundColor = backgroundColor;
@@ -27,7 +41,10 @@ namespace jcBENCH.console
 
         public async void Run()
         {
-            Console.SetWindowSize(120, 40);
+            if (CurrentPlaform == OSPlatform.Windows)
+            {
+                Console.SetWindowSize(120, 40);
+            }
 
             Console.BackgroundColor = ConsoleColor.Black;
 
@@ -40,7 +57,7 @@ namespace jcBENCH.console
 
             Console.BackgroundColor = ConsoleColor.Black;
 
-            var deviceInformation = DeviceInformation.GetInformation();
+            var deviceInformation = DeviceInformation.GetInformation(CurrentPlaform);
 
             Console.WriteLine($"{Environment.NewLine}Operating System: {deviceInformation.OperatingSystem}{Environment.NewLine}");
 

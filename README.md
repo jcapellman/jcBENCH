@@ -1,6 +1,8 @@
 # jcBENCH
 Cross-platform .NET Core CPU Benchmarking Tool.
 
+![Screenshot](https://raw.githubusercontent.com/jcapellman/jcbench/master/screenshot.png)
+
 The platform is composed of two components:
 - ASP.NET Core MVC/WebAPI App
 - .NET Core Command Line App

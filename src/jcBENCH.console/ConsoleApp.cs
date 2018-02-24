@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 using jcBENCH.lib;
@@ -32,7 +33,7 @@ namespace jcBENCH.console
 
             Console.Clear();
 
-            WriteCenteredText($"{Constants.APP_NAME} {Constants.APP_VERSION} (.NET Core 2.0 Edition)", ConsoleColor.DarkRed);
+            WriteCenteredText($"{Constants.APP_NAME} {Assembly.GetExecutingAssembly().GetName().Version} (.NET Core 2.0 Edition)", ConsoleColor.DarkRed);
             WriteCenteredText("(C) 2012-2018 Jarred Capellman", ConsoleColor.DarkRed);
 
             WriteCenteredText("Source code is available on https://github.com/jcapellman/jcBENCH", ConsoleColor.DarkRed);
@@ -68,7 +69,7 @@ namespace jcBENCH.console
             {
                 return;
             }
-
+            
             var submissionResult = await new SubmissionHandler().SubmitResultsAsync(new lib.Objects.ResultSubmissionItem
             {
                 BenchmarkID = "Hashing",

@@ -13,9 +13,7 @@ namespace jcBENCH.lib.PlatformImplementations
 
         protected string ParseConsoleOutput(string command, string searchMatch = null, string argument = null)
         {
-            var process = new Process();
-
-            process.StartInfo.FileName = command;
+            var process = new Process {StartInfo = {FileName = command}};
 
             if (!string.IsNullOrEmpty(argument))
             {
@@ -26,11 +24,9 @@ namespace jcBENCH.lib.PlatformImplementations
             process.StartInfo.UseShellExecute = false;
             process.Start();
 
-            var processOutput = string.Empty;
-
             while (!process.StandardOutput.EndOfStream)
             {
-                processOutput = process.StandardOutput.ReadLine();
+                var processOutput = process.StandardOutput.ReadLine();
 
                 if (string.IsNullOrEmpty(searchMatch)) {
                     return processOutput;
@@ -38,7 +34,7 @@ namespace jcBENCH.lib.PlatformImplementations
 
                 if (processOutput.Contains(searchMatch))
                 {
-                    return processOutput = processOutput.Replace(searchMatch, "").Trim();
+                    return processOutput.Replace(searchMatch, "").Trim();
                 }
             }
 

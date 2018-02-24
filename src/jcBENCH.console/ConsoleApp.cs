@@ -11,17 +11,13 @@ namespace jcBENCH.console
 {
     public class ConsoleApp
     {
-        private OSPlatform CurrentPlaform {
+        private static OSPlatform CurrentPlatform {
             get {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
                     return OSPlatform.Windows;
                 }
 
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
-                    return OSPlatform.OSX;
-                }
-
-                return OSPlatform.Linux;
+                return RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? OSPlatform.OSX : OSPlatform.Linux;
             }
         }
 
@@ -41,7 +37,7 @@ namespace jcBENCH.console
 
         public async void Run()
         {
-            if (CurrentPlaform == OSPlatform.Windows)
+            if (CurrentPlatform == OSPlatform.Windows)
             {
                 Console.SetWindowSize(120, 40);
             }
@@ -57,7 +53,14 @@ namespace jcBENCH.console
 
             Console.BackgroundColor = ConsoleColor.Black;
 
-            var deviceInformation = DeviceInformation.GetInformation(CurrentPlaform);
+            var deviceInformation = DeviceInformation.GetInformation(CurrentPlatform);
+
+            if (deviceInformation == null)
+            {
+                Console.WriteLine($"Could not load Platform Library for {CurrentPlatform}");
+
+                return;
+            }
 
             Console.WriteLine($"{Environment.NewLine}Operating System: {deviceInformation.OperatingSystem}{Environment.NewLine}");
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -9,13 +10,37 @@ namespace jcBENCH.lib
 {
     public static class DeviceInformation
     {
+        private static BaseDeviceInformation GetDeviceInformation(OSPlatform osPlatform)
+        {
+            var fileName = $"jcBENCH.lib.{osPlatform.ToString().ToLower()}.dll";
+
+            if (!File.Exists(fileName))
+            {
+                throw new Exception($"Could not find {osPlatform} Assembly ({fileName}");
+            }
+
+            var assembly = Assembly.LoadFile(Path.Combine(AppContext.BaseDirectory, fileName));
+
+            if (assembly == null)
+            {
+                throw new Exception("Failure loading Dynamic Platform Assembly");
+            }
+
+            return assembly.DefinedTypes.Where(a => a.BaseType == typeof(BaseDeviceInformation) && !a.IsAbstract)
+                .Select(b => (BaseDeviceInformation)Activator.CreateInstance(b)).FirstOrDefault(c => RuntimeInformation.IsOSPlatform(osPlatform));
+
+        }
+
         public static BaseDeviceInformation GetInformation()
         {
-            var deviceInformationImplementations = Assembly.GetAssembly(typeof(DeviceInformation))
-                .DefinedTypes.Where(a => a.BaseType == typeof(BaseDeviceInformation) && !a.IsAbstract)
-                .Select(b => (BaseDeviceInformation)Activator.CreateInstance(b)).ToList();
+            OSPlatform osPlatform;
+            
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                osPlatform = OSPlatform.Windows;
+            }
 
-            return deviceInformationImplementations.FirstOrDefault(a => RuntimeInformation.IsOSPlatform(a.Platform));
+            return GetDeviceInformation(osPlatform);
         }
     }
 }

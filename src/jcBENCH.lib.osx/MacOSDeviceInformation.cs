@@ -9,11 +9,7 @@ namespace jcBENCH.lib.osx
     {
         public override OSPlatform Platform => OSPlatform.OSX;
 
-        public override string OperatingSystem {
-            get {
-                return ParseConsoleOutput("system_profiler", "System Version:", "SPSoftwareDataType") ?? "Unknown";
-            }
-        }
+        public override string OperatingSystem => ParseConsoleOutput("system_profiler", "System Version:", "SPSoftwareDataType") ?? "Unknown";
 
         public override (string manufacturer, string model, int numberCores, string frequency, string architecture) GetCpuInformation()
         {

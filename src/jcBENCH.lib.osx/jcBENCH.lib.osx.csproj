@@ -7,6 +7,10 @@
     <OutputPath>..\Debug\</OutputPath>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\Release\</OutputPath>
+  </PropertyGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\jcBENCH.lib\jcBENCH.lib.csproj" />
   </ItemGroup>

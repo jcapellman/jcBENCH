@@ -1,5 +1,5 @@
 # jcBENCH
-[![License](https://img.shields.io/github/license/jcapellman/jcBENCH.svg)](LICENSE) <img src="https://ci.appveyor.com/api/projects/status/sbant1kxyh82so04?svg=true" alt="Build Status" />
+[![License](https://img.shields.io/github/license/jcapellman/jcBENCH.svg)](LICENSE)
 
 Cross-platform .NET Core CPU Benchmarking Tool.
 

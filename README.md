@@ -1,4 +1,6 @@
 # jcBENCH
+[![License](https://img.shields.io/github/license/jcapellman/jcBENCH.svg)](LICENSE)
+
 Cross-platform .NET Core CPU Benchmarking Tool.
 
 ![Screenshot](https://raw.githubusercontent.com/jcapellman/jcbench/master/screenshot.png)

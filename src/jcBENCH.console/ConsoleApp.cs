@@ -81,7 +81,7 @@ namespace jcBENCH.console
 
             Console.WriteLine($"Hashing Benchmark Score: {benchmarkResult}{Environment.NewLine}");
 
-            Console.WriteLine("Do you want to submit your result (y/n)?");
+            Console.Write("Do you want to submit your result (y/n)?");
 
             var key = Console.ReadKey();
 
@@ -102,14 +102,7 @@ namespace jcBENCH.console
                 PlatformID = OSPlatform.Windows.ToString()
             });
 
-            if (submissionResult)
-            {
-                Console.WriteLine("Submission was successful");
-            }
-            else
-            {
-                Console.WriteLine("Submission failed");
-            }
+            Console.WriteLine(submissionResult ? "Submission was successful" : "Submission failed");
         }
     }
 }

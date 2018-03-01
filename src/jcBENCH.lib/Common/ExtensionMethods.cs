@@ -42,5 +42,27 @@ namespace jcBENCH.lib.Common
                 return new string(charArray);
             }
         }
+
+        public static string ComputeMD5(this string str)
+        {
+            using (var md5 = MD5.Create())
+            {
+                var hashBytes = md5.ComputeHash(Encoding.ASCII.GetBytes(str));
+
+                var stringArray = hashBytes.Length * 2;
+                var charArray = new char[stringArray];
+                var index = 0;
+
+                for (var x = 0; x < stringArray; x += 2)
+                {
+                    var byteValue = hashBytes[index++];
+
+                    charArray[x] = GetHexValue(byteValue / 16);
+                    charArray[x + 1] = GetHexValue(byteValue % 16);
+                }
+
+                return new string(charArray);
+            }
+        }
     }
 }

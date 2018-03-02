@@ -9,9 +9,14 @@ The platform is composed of two components:
 - ASP.NET Core MVC/WebAPI App
 - .NET Core Command Line App
 
+## Benchmarks
+Currently implementing two different benchmarks of your CPU:
+- SHA1 Hashing
+- MD5 Hashing
+
+More to come and the addition of parallelization like in the original codebase.
+
 ## Release
-
-
 <a href="https://github.com/jcapellman/jcBENCH/releases/latest">Download Latest Release</a>
 
 ## Supported Platforms

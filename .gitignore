@@ -3,3 +3,4 @@ obj/
 .vs/
 /src/Debug/netcoreapp2.0
 /src/jcBENCH.lib.windows/..Debug/netcoreapp2.0
+/src/Release

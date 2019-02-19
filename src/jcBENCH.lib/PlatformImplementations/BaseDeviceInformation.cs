@@ -32,7 +32,7 @@ namespace jcBENCH.lib.PlatformImplementations
                     return processOutput;
                 }
 
-                if (processOutput.Contains(searchMatch))
+                if (processOutput != null && processOutput.Contains(searchMatch))
                 {
                     return processOutput.Replace(searchMatch, "").Trim();
                 }

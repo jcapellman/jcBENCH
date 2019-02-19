@@ -46,8 +46,8 @@ namespace jcBENCH.console
 
             Console.Clear();
 
-            WriteCenteredText($"{Constants.APP_NAME} {Assembly.GetExecutingAssembly().GetName().Version} (.NET Core 2.0 Edition)", ConsoleColor.DarkRed);
-            WriteCenteredText("(C) 2012-2018 Jarred Capellman", ConsoleColor.DarkRed);
+            WriteCenteredText($"{Constants.APP_NAME} {Assembly.GetExecutingAssembly().GetName().Version} (.NET Core 3.0 Edition)", ConsoleColor.DarkRed);
+            WriteCenteredText("(C) 2012-2019 Jarred Capellman", ConsoleColor.DarkRed);
 
             WriteCenteredText("Source code is available on https://github.com/jcapellman/jcBENCH", ConsoleColor.DarkRed);
 

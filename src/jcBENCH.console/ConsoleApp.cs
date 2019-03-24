@@ -37,72 +37,84 @@ namespace jcBENCH.console
 
         public async void Run()
         {
-            if (CurrentPlatform == OSPlatform.Windows)
+            try
             {
-                Console.SetWindowSize(120, 40);
+                if (CurrentPlatform == OSPlatform.Windows)
+                {
+                    Console.SetWindowSize(120, 40);
+                }
+
+                Console.BackgroundColor = ConsoleColor.Black;
+
+                Console.Clear();
+
+                WriteCenteredText(
+                    $"{Constants.APP_NAME} {Assembly.GetExecutingAssembly().GetName().Version} (.NET Core 3.0 Edition)",
+                    ConsoleColor.DarkRed);
+                WriteCenteredText("(C) 2012-2019 Jarred Capellman", ConsoleColor.DarkRed);
+
+                WriteCenteredText("Source code is available on https://github.com/jcapellman/jcBENCH",
+                    ConsoleColor.DarkRed);
+
+                Console.BackgroundColor = ConsoleColor.Black;
+
+                var deviceInformation = DeviceInformation.GetInformation(CurrentPlatform);
+
+                if (deviceInformation == null)
+                {
+                    Console.WriteLine($"Could not load Platform Library for {CurrentPlatform}");
+
+                    return;
+                }
+
+                Console.WriteLine(
+                    $"{Environment.NewLine}Operating System: {deviceInformation.OperatingSystem}{Environment.NewLine}");
+
+                var (manufacturer, model, numberCores, frequency, architecture) = deviceInformation.GetCpuInformation();
+
+                Console.WriteLine("---------------");
+                Console.WriteLine("CPU Information");
+                Console.WriteLine("---------------");
+                Console.WriteLine($"Manufacturer: {manufacturer}");
+                Console.WriteLine($"Model: {model}");
+                Console.WriteLine($"Count: {numberCores}x{frequency}");
+                Console.WriteLine($"Architecture: {architecture}");
+                Console.WriteLine($"---------------{Environment.NewLine}");
+
+                var benchmark = new HashingBenchmark();
+
+                var benchmarkResult = benchmark.Run(true);
+
+                Console.WriteLine($"Hashing Benchmark Score: {benchmarkResult}{Environment.NewLine}");
+
+                Console.Write("Do you want to submit your result (y/n)?");
+
+                var key = Console.ReadKey();
+
+                if (key.Key != ConsoleKey.Y)
+                {
+                    return;
+                }
+
+                var submissionResult = await new SubmissionHandler().SubmitResultsAsync(
+                    new lib.Objects.ResultSubmissionItem
+                    {
+                        BenchmarkID = "Hashing",
+                        BenchmarkResult = benchmarkResult,
+                        CPUArchitecture = architecture,
+                        CPUFrequency = $"{numberCores}x{frequency}",
+                        CPUManufacturer = manufacturer,
+                        CPUName = model,
+                        OperatingSystem = deviceInformation.OperatingSystem,
+                        PlatformID = OSPlatform.Windows.ToString()
+                    });
+
+                Console.WriteLine(submissionResult ? "Submission was successful" : "Submission failed");
             }
-
-            Console.BackgroundColor = ConsoleColor.Black;
-
-            Console.Clear();
-
-            WriteCenteredText($"{Constants.APP_NAME} {Assembly.GetExecutingAssembly().GetName().Version} (.NET Core 3.0 Edition)", ConsoleColor.DarkRed);
-            WriteCenteredText("(C) 2012-2019 Jarred Capellman", ConsoleColor.DarkRed);
-
-            WriteCenteredText("Source code is available on https://github.com/jcapellman/jcBENCH", ConsoleColor.DarkRed);
-
-            Console.BackgroundColor = ConsoleColor.Black;
-
-            var deviceInformation = DeviceInformation.GetInformation(CurrentPlatform);
-
-            if (deviceInformation == null)
+            catch (Exception ex)
             {
-                Console.WriteLine($"Could not load Platform Library for {CurrentPlatform}");
-
-                return;
+                Console.WriteLine($"Error running {Constants.APP_NAME}: {Environment.NewLine}{ex}");
             }
-
-            Console.WriteLine($"{Environment.NewLine}Operating System: {deviceInformation.OperatingSystem}{Environment.NewLine}");
-
-            var (manufacturer, model, numberCores, frequency, architecture) = deviceInformation.GetCpuInformation();
-
-            Console.WriteLine("---------------");
-            Console.WriteLine("CPU Information");
-            Console.WriteLine("---------------");
-            Console.WriteLine($"Manufacturer: {manufacturer}");
-            Console.WriteLine($"Model: {model}");
-            Console.WriteLine($"Count: {numberCores}x{frequency}");
-            Console.WriteLine($"Architecture: {architecture}");
-            Console.WriteLine($"---------------{Environment.NewLine}");
-
-            var benchmark = new HashingBenchmark();
-
-            var benchmarkResult = benchmark.Run();
-
-            Console.WriteLine($"Hashing Benchmark Score: {benchmarkResult}{Environment.NewLine}");
-
-            Console.Write("Do you want to submit your result (y/n)?");
-
-            var key = Console.ReadKey();
-
-            if (key.Key != ConsoleKey.Y)
-            {
-                return;
-            }
-            
-            var submissionResult = await new SubmissionHandler().SubmitResultsAsync(new lib.Objects.ResultSubmissionItem
-            {
-                BenchmarkID = "Hashing",
-                BenchmarkResult = benchmarkResult,
-                CPUArchitecture = architecture,
-                CPUFrequency = $"{numberCores}x{frequency}",
-                CPUManufacturer = manufacturer,
-                CPUName = model,
-                OperatingSystem = deviceInformation.OperatingSystem,
-                PlatformID = OSPlatform.Windows.ToString()
-            });
-
-            Console.WriteLine(submissionResult ? "Submission was successful" : "Submission failed");
         }
     }
 }

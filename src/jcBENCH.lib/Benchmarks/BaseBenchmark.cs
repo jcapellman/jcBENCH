@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace jcBENCH.lib.Benchmarks
 {
@@ -9,8 +12,55 @@ namespace jcBENCH.lib.Benchmarks
         protected abstract string Name { get; }
 
         protected abstract string RunBenchmark();
+        
+        private int RunMultithreaded()
+        {
+            Console.WriteLine($"Running {Name} benchmark (MULTI-THREADED) for {SECONDS_TO_RUN} seconds...{Environment.NewLine}");
 
-        public int Run()
+            var cts = new CancellationTokenSource();
+
+            var parallelOptions = new ParallelOptions
+            {
+                CancellationToken = cts.Token, MaxDegreeOfParallelism = System.Environment.ProcessorCount
+            };
+
+            var numIterations = new List<int>();
+
+            var startTime = DateTime.Now;
+
+            try
+            {
+                Parallel.For(0, int.MaxValue, parallelOptions, num =>
+                {
+                    var result = RunBenchmark();
+
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        return;
+                    }
+
+                    if (DateTime.Now.Subtract(startTime).TotalSeconds > SECONDS_TO_RUN)
+                    {
+                        cts.Cancel();
+                    }
+
+                    parallelOptions.CancellationToken.ThrowIfCancellationRequested();
+
+                    lock (numIterations)
+                    {
+                        numIterations.Add(1);
+                    }
+                });
+            }
+            catch (OperationCanceledException)
+            {
+                // expected
+            }
+
+            return numIterations.Count;
+        }
+
+        private int RunSingleThreaded()
         {
             Console.WriteLine($"Running {Name} benchmark for {SECONDS_TO_RUN} seconds...{Environment.NewLine}");
 
@@ -36,6 +86,11 @@ namespace jcBENCH.lib.Benchmarks
             }
 
             return numberIterations;
+        }
+
+        public int Run(bool multiThreaded = false)
+        {
+            return multiThreaded ? RunMultithreaded() : RunSingleThreaded();
         }
     }
 }

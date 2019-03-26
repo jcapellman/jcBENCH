@@ -14,15 +14,26 @@ namespace jcBENCH.lib.windows
         private const string REGISTRY_VALUE_CPU_MANUFACTURER = "VendorIdentifier";
         private const string REGISTRY_VALUE_CPU_SPEED = "~MHz";
 
+        private const string REGISTRY_KEY_OS = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion";
+
         public override OSPlatform Platform => OSPlatform.Windows;
 
-        public override string OperatingSystem => RuntimeInformation.OSDescription;
+        public override string OperatingSystem
+        {
+            get
+            {
+                var productName = GetRegistryValue("ProductName", REGISTRY_KEY_OS);
+                var version = GetRegistryValue("CurrentVersion", REGISTRY_KEY_OS);
+
+                return $"{productName} (Version {version})";
+            }
+        }
 
         private static string GetRegistryValue(string value, string key = REGISTRY_KEY_CPU)
         {
             var registryKey = Registry.LocalMachine.OpenSubKey(key);
 
-            return registryKey?.GetValue(value).ToString() ?? "Unknown";
+            return registryKey?.GetValue(value)?.ToString() ?? "Unknown";
         }
 
         public override (string manufacturer, string model, int numberCores, string frequency, string architecture) GetCpuInformation() => 

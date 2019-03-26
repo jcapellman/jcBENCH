@@ -6,7 +6,7 @@
         {
             var consoleApp = new ConsoleApp();
 
-            consoleApp.Run();
+            consoleApp.Run(args);
         }
     }
 }

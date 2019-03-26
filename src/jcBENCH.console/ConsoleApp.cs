@@ -6,6 +6,7 @@ using jcBENCH.lib;
 using jcBENCH.lib.Benchmarks;
 using jcBENCH.lib.Common;
 using jcBENCH.lib.Handlers;
+using jcBENCH.lib.Objects;
 
 namespace jcBENCH.console
 {
@@ -35,10 +36,12 @@ namespace jcBENCH.console
             Console.Write(text);
         }
 
-        public async void Run()
+        public async void Run(string[] args)
         {
             try
             {
+                var settings = new CommandLineSettings(args);
+
                 if (CurrentPlatform == OSPlatform.Windows)
                 {
                     Console.SetWindowSize(120, 40);
@@ -83,7 +86,7 @@ namespace jcBENCH.console
 
                 var benchmark = new HashingBenchmark();
 
-                var benchmarkResult = benchmark.Run(true);
+                var benchmarkResult = benchmark.Run(settings);
 
                 Console.WriteLine($"Hashing Benchmark Score: {benchmarkResult}{Environment.NewLine}");
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using jcBENCH.lib.Objects;
 
 namespace jcBENCH.lib.Benchmarks
 {
@@ -13,7 +14,7 @@ namespace jcBENCH.lib.Benchmarks
 
         protected abstract string RunBenchmark();
         
-        private int RunMultithreaded()
+        private int RunMultiThreaded()
         {
             Console.WriteLine($"Running {Name} benchmark (MULTI-THREADED) for {SECONDS_TO_RUN} seconds...{Environment.NewLine}");
 
@@ -88,9 +89,9 @@ namespace jcBENCH.lib.Benchmarks
             return numberIterations;
         }
 
-        public int Run(bool multiThreaded = false)
+        public int Run(CommandLineSettings settings, bool multiThreaded = false)
         {
-            return multiThreaded ? RunMultithreaded() : RunSingleThreaded();
+            return multiThreaded ? RunMultiThreaded() : RunSingleThreaded();
         }
     }
 }

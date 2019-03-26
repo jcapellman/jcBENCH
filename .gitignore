@@ -1,6 +1,7 @@
 bin/
 obj/
 .vs/
-/src/Debug/netcoreapp2.0
-/src/jcBENCH.lib.windows/..Debug/netcoreapp2.0
+/src/Debug/netcoreapp3.0
+/src/jcBENCH.lib.windows/..Debug/netcoreapp3.0
 /src/Release
+*.user

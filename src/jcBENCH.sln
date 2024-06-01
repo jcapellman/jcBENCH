@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28705.295
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.34929.205
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jcBENCH.console", "jcBENCH.console\jcBENCH.console.csproj", "{36F7CEFD-C5CC-4C6A-8110-566BE9668732}"
 EndProject
@@ -14,6 +14,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jcBENCH.lib.osx", "jcBENCH.lib.osx\jcBENCH.lib.osx.csproj", "{29A51921-AD31-461A-803C-D8B90D3A129C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jcBENCH.lib.linux", "jcBENCH.lib.linux\jcBENCH.lib.linux.csproj", "{D1D1636E-EF37-4098-9334-8C2144C4F02F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B146EE58-D5DE-43A5-9512-ECC21F3A6645}"
+	ProjectSection(SolutionItems) = preProject
+		jcbench.app\Cargo.toml = jcbench.app\Cargo.toml
+		jcbench.app\src\main.rs = jcbench.app\src\main.rs
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

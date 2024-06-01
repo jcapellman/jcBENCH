@@ -1,7 +1,10 @@
 use chrono;
 use sysinfo::System;
 
+mod benchmark;
 mod benchmark_md5;
+
+use crate::benchmark::Benchmark;
 
 fn bench_md5() -> u32 {
     const SECONDS_TO_RUN:i64 = 2;
@@ -10,7 +13,7 @@ fn bench_md5() -> u32 {
 
     let mut number_iterations:u32 = 0;
 
-    let bench = benchmark_md5::BenchmarkMD5;
+    let bench = benchmark_md5::BenchmarkMD5 { };
 
     while (chrono::offset::Local::now() - start_time).num_seconds() < SECONDS_TO_RUN
     {

@@ -2,18 +2,18 @@ use chrono;
 use md5;
 use sysinfo::System;
 
-fn bench_md5() -> i32 {
-    let seconds_to_run:i64 = 2;
+fn bench_md5() -> u32 {
+    const SECONDS_TO_RUN:i64 = 2;
 
     let start_time = chrono::offset::Local::now();
 
-    let mut number_iterations:i32 = 0;
+    let mut number_iterations:u32 = 0;
 
-    while (chrono::offset::Local::now() - start_time).num_seconds() < seconds_to_run
+    while (chrono::offset::Local::now() - start_time).num_seconds() < SECONDS_TO_RUN
     {
         let _result:md5::Digest = md5::compute(chrono::offset::Local::now().to_string());
         
-        if (chrono::offset::Local::now() - start_time).num_seconds() > seconds_to_run
+        if (chrono::offset::Local::now() - start_time).num_seconds() > SECONDS_TO_RUN
         {
             break;
         }
@@ -28,13 +28,13 @@ fn write_centered(str: String) {
     println!("{}", str);
 }
 
-fn submit_result(benchmark: i32) -> bool {
+fn submit_result(benchmark: u32) -> bool {
     // serialize and submit to server
     return true;
 }
 
 fn main() {
-    let result:i32 = bench_md5();
+    let result:u32 = bench_md5();
 
     // Console.BackgroundColor = ConsoleColor.Black;
     

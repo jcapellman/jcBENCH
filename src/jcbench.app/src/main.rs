@@ -1,23 +1,33 @@
+use std::env;
+
 use chrono;
 use sysinfo::System;
 
 mod benchmark;
 mod benchmark_md5;
+mod benchmark_sha1;
 
 use crate::benchmark::Benchmark;
 
-fn bench_md5() -> u32 {
+enum Benchmarks {
+    MD5,
+    SHA1
+}
+
+pub struct BenchmarkSettings {
+	multi_threaded: bool
+}
+
+fn run_benchmark<T: Benchmark>(selected_benchmark: T) -> u32 {
     const SECONDS_TO_RUN:i64 = 2;
 
     let start_time = chrono::offset::Local::now();
 
     let mut number_iterations:u32 = 0;
 
-    let bench = benchmark_md5::BenchmarkMD5 { };
-
     while (chrono::offset::Local::now() - start_time).num_seconds() < SECONDS_TO_RUN
     {
-        let _result = bench.run();
+        let _result = selected_benchmark.run();
         
         if (chrono::offset::Local::now() - start_time).num_seconds() > SECONDS_TO_RUN
         {
@@ -31,27 +41,54 @@ fn bench_md5() -> u32 {
 }
 
 fn write_centered(str: String) {
-    println!("{}", str);
+    println!("{:=^50}", str);
 }
 
 fn submit_result(benchmark: u32) -> bool {
-    // serialize and submit to server
+    println!("Submitting {benchmark} score to the server...");
+
     return true;
 }
 
-fn main() {
-    let result:u32 = bench_md5();
-
-    // Console.BackgroundColor = ConsoleColor.Black;
+fn parse_args(args: Vec<String>) -> Box<dyn Benchmark> {
+    let mut settings = BenchmarkSettings {
+        multi_threaded: false
+    };
     
-    // Console.Clear();
+    let mut benchmark_selection = Benchmarks::MD5;
 
+    if args.len() > 1 {
+        for arg in args {
+            match arg.as_str() {
+                "sha1" => benchmark_selection = Benchmarks::SHA1,
+                "md5" => benchmark_selection = Benchmarks::MD5,
+                "multithreaded" => settings.multi_threaded = true,
+                _ => println!("Unexpected argument"),
+            }
+        }
+    } else {
+        println!("No arguments passed in...running defaults...");
+    }
+
+    let selected_benchmark: Box<dyn Benchmark> = match benchmark_selection {
+        Benchmarks::MD5 => Box::new(benchmark_md5::BenchmarkMD5 {}),
+        Benchmarks::SHA1 => Box::new(benchmark_sha1::BenchmarkSHA1 {})
+    };
+
+    return selected_benchmark;
+}
+
+fn main() {
     write_centered("jcBENCH 2024.5.0 (RUST Edition)".to_string());
     write_centered("(C) 2012-2024 Jarred Capellman".to_string());
     write_centered("Source code is available on https://github.com/jcapellman/jcBENCH".to_string());
+    
+    let args: Vec<String> = env::args().collect();
 
-    //Console.BackgroundColor = ConsoleColor.Black;
+    let selected_benchmark = parse_args(args);
 
+    let result:u32 = run_benchmark(selected_benchmark);
+   
     let mut sys = System::new_all();
     
     sys.refresh_all();

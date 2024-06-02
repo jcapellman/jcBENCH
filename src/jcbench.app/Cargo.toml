@@ -6,4 +6,5 @@ edition = "2021"
 [dependencies]
 chrono = "0.4.38"
 md5 = "0.7.0"
+sha1 = "0.10.6"
 sysinfo = "0.30.12"

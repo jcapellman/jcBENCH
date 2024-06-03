@@ -2,6 +2,7 @@ use std::env;
 
 use chrono;
 use sysinfo::System;
+use serde::Serialize;
 
 mod benchmark;
 mod benchmark_md5;
@@ -16,6 +17,15 @@ enum Benchmarks {
 
 pub struct BenchmarkSettings {
 	multi_threaded: bool
+}
+
+
+#[derive(Serialize, Debug)]
+pub struct BenchmarkRequest {
+    cpu_manufacturer: String,
+    cpu_name: String,
+    cpu_cores: usize,
+    score: u32
 }
 
 fn run_benchmark<T: Benchmark>(selected_benchmark: T) -> u32 {
@@ -44,9 +54,17 @@ fn write_centered(str: String) {
     println!("{:=^50}", str);
 }
 
-fn submit_result(benchmark: u32) -> bool {
-    println!("Submitting {benchmark} score to the server...");
+fn submit_result(benchmark_result: BenchmarkRequest) -> bool {
+    println!("Submitting score to the server...");
+    
+    let json_string = serde_json::to_string(&benchmark_result).unwrap();
+    
+    let client = reqwest::blocking::Client::new();
 
+    let _response = client.post("http://httpbin.org/post")
+    .body(json_string)
+    .send();
+    
     return true;
 }
 
@@ -116,7 +134,14 @@ fn main() {
         return;
     }
 
-    let submission_result = submit_result(result);
+    let benchmark_result = BenchmarkRequest {
+        cpu_cores: sys.cpus().len(),
+        cpu_manufacturer: sys.global_cpu_info().brand().to_string(),
+        cpu_name: sys.global_cpu_info().name().to_string(),
+        score: result,
+    };
+
+    let submission_result = submit_result(benchmark_result);
 
     if submission_result {
         println!("Submission was successful");

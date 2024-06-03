@@ -4,3 +4,4 @@ obj/
 /*/Debug/*
 /src/Release
 *.user
+src/jcbench.app/target/*

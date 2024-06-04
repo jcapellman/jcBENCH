@@ -23,7 +23,6 @@ pub struct BenchmarkSettings {
 #[derive(Serialize, Debug)]
 pub struct BenchmarkRequest {
     os_name: String,
-    cpu_manufacturer: String,
     cpu_name: String,
     cpu_architecture: String,
     cpu_cores: usize,
@@ -98,6 +97,20 @@ fn parse_args(args: Vec<String>) -> Box<dyn Benchmark> {
     return selected_benchmark;
 }
 
+fn retrieve_sysinfo(benchmark_result: u32) -> BenchmarkRequest {
+    let mut sys = System::new_all();
+    
+    sys.refresh_all();
+
+    return BenchmarkRequest {
+        cpu_cores: sys.cpus().len(),
+        cpu_name: sys.cpus()[0].brand().to_string(),
+        score: benchmark_result,
+        os_name: env::consts::OS.to_string(),
+        cpu_architecture: env::consts::ARCH.to_string()
+    };
+}
+
 fn main() {
     write_centered("jcBENCH 2024.5.0 (RUST Edition)".to_string());
     write_centered("(C) 2012-2024 Jarred Capellman".to_string());
@@ -109,23 +122,20 @@ fn main() {
 
     let result:u32 = run_benchmark(selected_benchmark);
    
-    let mut sys = System::new_all();
-    
-    sys.refresh_all();
+    println!("Benchmark Score: {result}");
 
-    println!("Operating System:             {}", env::consts::OS);
+    let benchmark_result = retrieve_sysinfo(result);
+
+    println!("Operating System: {}", benchmark_result.os_name);
     
     println!("---------------");
     println!("CPU Information");
     println!("---------------");
-    println!("Manufacturer: {}", sys.global_cpu_info().brand());
-    println!("Model: {}", sys.global_cpu_info().name());
-    println!("Count: {}x{}", sys.cpus().len(), sys.global_cpu_info().frequency());
-    println!("Architecture: {}", env::consts::ARCH);
+    println!("Model: {}", benchmark_result.cpu_name);
+    println!("Count: {}", benchmark_result.cpu_cores);
+    println!("Architecture: {}", benchmark_result.cpu_architecture);
     println!("---------------");
-
-    println!("Hashing Benchmark Score: {result}");
-
+    
     println!("Do you want to submit your result (y/n)?");
 
     let mut key = String::new();
@@ -135,16 +145,7 @@ fn main() {
     if key.trim_end() != "y" {
         return;
     }
-
-    let benchmark_result = BenchmarkRequest {
-        cpu_cores: sys.cpus().len(),
-        cpu_manufacturer: sys.global_cpu_info().brand().to_string(),
-        cpu_name: sys.global_cpu_info().name().to_string(),
-        score: result,
-        os_name: env::consts::OS.to_string(),
-        cpu_architecture: env::consts::ARCH.to_string()
-    };
-
+    
     let submission_result = submit_result(benchmark_result);
 
     if submission_result {

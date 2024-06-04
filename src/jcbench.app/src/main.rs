@@ -22,8 +22,10 @@ pub struct BenchmarkSettings {
 
 #[derive(Serialize, Debug)]
 pub struct BenchmarkRequest {
+    os_name: String,
     cpu_manufacturer: String,
     cpu_name: String,
+    cpu_architecture: String,
     cpu_cores: usize,
     score: u32
 }
@@ -111,7 +113,7 @@ fn main() {
     
     sys.refresh_all();
 
-    println!("Operating System:             {:?}", System::name());
+    println!("Operating System:             {}", env::consts::OS);
     
     println!("---------------");
     println!("CPU Information");
@@ -119,7 +121,7 @@ fn main() {
     println!("Manufacturer: {}", sys.global_cpu_info().brand());
     println!("Model: {}", sys.global_cpu_info().name());
     println!("Count: {}x{}", sys.cpus().len(), sys.global_cpu_info().frequency());
-    println!("Architecture: {}", sys.global_cpu_info().brand());
+    println!("Architecture: {}", env::consts::ARCH);
     println!("---------------");
 
     println!("Hashing Benchmark Score: {result}");
@@ -139,6 +141,8 @@ fn main() {
         cpu_manufacturer: sys.global_cpu_info().brand().to_string(),
         cpu_name: sys.global_cpu_info().name().to_string(),
         score: result,
+        os_name: env::consts::OS.to_string(),
+        cpu_architecture: env::consts::ARCH.to_string()
     };
 
     let submission_result = submit_result(benchmark_result);

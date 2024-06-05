@@ -23,6 +23,7 @@ pub struct BenchmarkSettings {
 #[derive(Serialize, Debug)]
 pub struct BenchmarkRequest {
     os_name: String,
+    benchmark_name: String,
     cpu_name: String,
     cpu_architecture: String,
     cpu_cores: usize,
@@ -62,7 +63,7 @@ fn submit_result(benchmark_result: BenchmarkRequest) -> bool {
     
     let client = reqwest::blocking::Client::new();
 
-    let _response = client.post("http://httpbin.org/post")
+    let _response = client.post("https://jcbench.uc.r.appspot.com/api/ResultSubmission")
     .body(json_string)
     .send();
     
@@ -107,7 +108,8 @@ fn retrieve_sysinfo(benchmark_result: u32) -> BenchmarkRequest {
         cpu_name: sys.cpus()[0].brand().to_string(),
         score: benchmark_result,
         os_name: env::consts::OS.to_string(),
-        cpu_architecture: env::consts::ARCH.to_string()
+        cpu_architecture: env::consts::ARCH.to_string(),
+        benchmark_name: "Hashing".to_string()
     };
 }
 

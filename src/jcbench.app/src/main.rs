@@ -59,15 +59,13 @@ fn write_centered(str: String) {
 fn submit_result(benchmark_result: BenchmarkRequest) -> bool {
     println!("Submitting score to the server...");
     
-    let json_string = serde_json::to_string(&benchmark_result).unwrap();
-    
     let client = reqwest::blocking::Client::new();
 
-    let _response = client.post("https://jcbench.uc.r.appspot.com/api/ResultSubmission")
-    .body(json_string)
-    .send();
+    let response = client.post("https://jcbench.uc.r.appspot.com/api/ResultSubmission")
+        .json(&benchmark_result)
+        .send().unwrap();
     
-    return true;
+    return response.status() == 200;
 }
 
 fn parse_args(args: Vec<String>) -> Box<dyn Benchmark> {

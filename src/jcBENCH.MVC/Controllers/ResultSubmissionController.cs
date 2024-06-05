@@ -30,7 +30,7 @@ namespace jcBENCH.MVC.Controllers
                     CPUArchitecture = submissionItem.cpu_architecture,
                     CPUName = submissionItem.cpu_name,
                     OperatingSystem = submissionItem.os_name,
-                    Created = DateTime.Now,
+                    Created = DateTimeOffset.Now,
                     BenchmarkName = submissionItem.benchmark_name
                 };
 

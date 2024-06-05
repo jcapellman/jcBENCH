@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace jcBENCH.MVC.DAL.Objects
@@ -10,7 +9,7 @@ namespace jcBENCH.MVC.DAL.Objects
         [Key]
         public int ID { get; set; }
 
-        public DateTime Created { get; set; } = DateTime.Now;
+        public DateTimeOffset Created { get; set; } = DateTimeOffset.Now;
 
         [Required]
         public string BenchmarkName { get; set; }

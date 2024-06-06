@@ -8,8 +8,8 @@ mod benchmark;
 mod benchmark_md5;
 mod benchmark_sha1;
 
-use std::process::Command;
 use crate::benchmark::Benchmark;
+use shutil::pipe;
 
 #[derive(strum_macros::Display)]
 enum Benchmarks {
@@ -102,17 +102,22 @@ fn retrieve_sysinfo(selected_benchmark_name: Benchmarks, benchmark_result: u32) 
     
     sys.refresh_all();
 
-    let mut cpu_name = sys.cpus()[0].brand().to_string();
+    let mut parsed_cpu_name = sys.cpus()[0].brand().to_string();
 
-    if cpu_name.len() == 0 {
-        let output = Command::new("sh").arg("cat /proc/cpuinfo | grep 'uarch' -m 1 | cut -f 2 -d ':' | awk '{$1=$1}1'").output().unwrap();
-
-        cpu_name = String::from_utf8(output.stdout).unwrap();
+    if parsed_cpu_name.len() == 0 {
+        let output = pipe(vec![
+            vec!["cat", "/proc/cpuinfo"],
+            vec!["grep", "'uarch'", " ", "-m", "1"],
+            vec!["cut", "-f", "2", "-d", "':'"],
+            vec!["awk", "'{$1=$1}1'"],
+        ]);
+        
+        parsed_cpu_name = output.unwrap();
     }
 
     return BenchmarkRequest {
         cpu_cores: sys.cpus().len(),
-        cpu_name: cpu_name,
+        cpu_name: parsed_cpu_name,
         score: benchmark_result,
         os_name: env::consts::OS.to_string(),
         cpu_architecture: env::consts::ARCH.to_string(),

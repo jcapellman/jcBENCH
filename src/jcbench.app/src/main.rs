@@ -10,6 +10,7 @@ mod benchmark_sha1;
 
 use crate::benchmark::Benchmark;
 
+#[derive(strum_macros::Display)]
 enum Benchmarks {
     MD5,
     SHA1
@@ -18,7 +19,6 @@ enum Benchmarks {
 pub struct BenchmarkSettings {
 	multi_threaded: bool
 }
-
 
 #[derive(Serialize, Debug)]
 pub struct BenchmarkRequest {
@@ -68,7 +68,7 @@ fn submit_result(benchmark_result: BenchmarkRequest) -> bool {
     return response.status() == 200;
 }
 
-fn parse_args(args: Vec<String>) -> Box<dyn Benchmark> {
+fn parse_args(args: Vec<String>) -> (Box<dyn Benchmark>, Benchmarks) {
     let mut settings = BenchmarkSettings {
         multi_threaded: false
     };
@@ -93,10 +93,10 @@ fn parse_args(args: Vec<String>) -> Box<dyn Benchmark> {
         Benchmarks::SHA1 => Box::new(benchmark_sha1::BenchmarkSHA1 {})
     };
 
-    return selected_benchmark;
+    return (selected_benchmark, benchmark_selection);
 }
 
-fn retrieve_sysinfo(benchmark_result: u32) -> BenchmarkRequest {
+fn retrieve_sysinfo(selected_benchmark_name: Benchmarks, benchmark_result: u32) -> BenchmarkRequest {
     let mut sys = System::new_all();
     
     sys.refresh_all();
@@ -107,7 +107,7 @@ fn retrieve_sysinfo(benchmark_result: u32) -> BenchmarkRequest {
         score: benchmark_result,
         os_name: env::consts::OS.to_string(),
         cpu_architecture: env::consts::ARCH.to_string(),
-        benchmark_name: "Hashing".to_string()
+        benchmark_name: selected_benchmark_name.to_string()
     };
 }
 
@@ -118,13 +118,13 @@ fn main() {
     
     let args: Vec<String> = env::args().collect();
 
-    let selected_benchmark = parse_args(args);
+    let (selected_benchmark, selected_benchmark_name) = parse_args(args);
 
     let result:u32 = run_benchmark(selected_benchmark);
    
     println!("Benchmark Score: {result}");
 
-    let benchmark_result = retrieve_sysinfo(result);
+    let benchmark_result = retrieve_sysinfo(selected_benchmark_name, result);
 
     println!("Operating System: {}", benchmark_result.os_name);
     

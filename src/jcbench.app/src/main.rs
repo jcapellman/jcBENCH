@@ -9,7 +9,6 @@ mod benchmark_md5;
 mod benchmark_sha1;
 
 use crate::benchmark::Benchmark;
-use shutil::pipe;
 
 #[derive(strum_macros::Display)]
 enum Benchmarks {
@@ -104,15 +103,9 @@ fn retrieve_sysinfo(selected_benchmark_name: Benchmarks, benchmark_result: u32) 
 
     let mut parsed_cpu_name = sys.cpus()[0].brand().to_string();
 
+    #[cfg(target_os = "linux")]
     if parsed_cpu_name.len() == 0 {
-        let output = pipe(vec![
-            vec!["cat", "/proc/cpuinfo"],
-            vec!["grep", "'uarch'", " ", "-m", "1"],
-            vec!["cut", "-f", "2", "-d", "':'"],
-            vec!["awk", "'{$1=$1}1'"],
-        ]);
-        
-        parsed_cpu_name = output.unwrap();
+        parsed_cpu_name = procfs::CpuInfo::model_name;
     }
 
     return BenchmarkRequest {

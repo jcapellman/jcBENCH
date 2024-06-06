@@ -1,38 +1,23 @@
 ﻿@model List<jcBENCH.MVC.DAL.Objects.Results>
 
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Benchmark Results";
 }
 
-<div class="center-block">
-    <h2 class="text-center">jcBENCH</h2>
+<div class="jumbotron jumbotron-fluid">
+    <h1 class="display-4">Benchmark Results</h1>
 
-    <a href="https://github.com/jcapellman/jcBENCH/releases/latest" target="_blank" class="btn btn-primary">Download Latest Release</a>
-    
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-4">About</h1>
-        
-            <p class="lead">
-                Originally created to answer part of the question, how does Device A compare to Device B from a computation perspective irregardless of the platform?
-                Over time this grew to support BSD, IRIX, Solaris, Android and many other platforms written in C# and C++.  However, supporting two different languages was problematic, so a rewrite into Rust was made to support just modern operating systems.
-            </p>
-        </div>
-    </div>
-
-    <h3>Benchmark Results</h3>
-    <Br/>
     <table class="table table-hover table-dark">
         <thead class="thead-dark">
-            <tr>
-                <th>#</th>
-                <th>Benchmark Type</th>
-                <th>Score</th>
-                <th>CPU Model</th>
-                <th>CPU Architecture</th>
-                <th>Number of CPU Cores</th>
-                <th>Operating System</th>
-            </tr>
+        <tr>
+            <th>#</th>
+            <th>Benchmark Type</th>
+            <th>Score</th>
+            <th>CPU Model</th>
+            <th>CPU Architecture</th>
+            <th>Number of CPU Cores</th>
+            <th>Operating System</th>
+        </tr>
         </thead>
         <tbody>
         @for (var x = 0; x < Model.Count; x++)

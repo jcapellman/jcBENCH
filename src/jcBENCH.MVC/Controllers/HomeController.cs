@@ -16,6 +16,10 @@ namespace jcBENCH.MVC.Controllers
             _logger = logger;
         }
 
+        public ActionResult Download() => View();
+
+        public ActionResult About() => View();
+
         public ActionResult Index()
         {
             var topResults = _dbContext.BenchmarkResults.OrderByDescending(a => a.BenchmarkResult).ToList();

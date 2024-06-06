@@ -1,5 +1,6 @@
 using jcBENCH.MVC.DAL;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace jcBENCH.MVC
 {
@@ -42,6 +43,12 @@ namespace jcBENCH.MVC
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<MainDbContext>();
+                db.Database.Migrate();
+            }
 
             app.Run();
         }

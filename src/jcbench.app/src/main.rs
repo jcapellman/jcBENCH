@@ -7,6 +7,7 @@ use serde::Serialize;
 mod benchmark;
 mod benchmark_md5;
 mod benchmark_sha1;
+mod cpuinfo;
 
 use crate::benchmark::Benchmark;
 
@@ -105,7 +106,9 @@ fn retrieve_sysinfo(selected_benchmark_name: Benchmarks, benchmark_result: u32) 
 
     #[cfg(target_os = "linux")]
     if parsed_cpu_name.len() == 0 {
-        parsed_cpu_name = procfs::CpuInfo::model_name;
+        let cpu_info = cpuinfo::CPUInfo::new();
+        
+        parsed_cpu_name = cpu_info.get_key("uarch");
     }
 
     return BenchmarkRequest {

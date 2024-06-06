@@ -27,16 +27,18 @@
         <thead style="background-color: cornflowerblue;">
         <tr>
             <th>#</th>
+            <th>Benchmark</th>
             <th>Manufacturer</th>
             <th>Model</th>
             <th>Benchmark Result</th>
         </tr>
         </thead>
         <tbody>
-        @for (int x = 0; x < Model.Count; x++)
+        @for (var x = 0; x < Model.Count; x++)
         {
             <tr>
                 <td>@(x+1)</td>
+                <td>@Model[x].BenchmarkName</td>
                 <td>@Model[x].CPUManufacturer</td>
                 <td>@Model[x].CPUModelName</td>
                 <td>@Model[x].BenchmarkResult</td>

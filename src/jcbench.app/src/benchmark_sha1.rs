@@ -15,8 +15,4 @@ impl benchmark::Benchmark for BenchmarkSHA1 {
 
 		return "True".to_string();
 	}
-
-	fn name(&self) -> String {
-		return "SHA1".to_string();
-	}
 }

@@ -11,8 +11,4 @@ impl benchmark::Benchmark for BenchmarkMD5 {
 
 		return "True".to_string();
 	}
-
-	fn name(&self) -> String {
-        return "MD5".to_string();
-    }
 }

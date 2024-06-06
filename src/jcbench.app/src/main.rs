@@ -61,7 +61,7 @@ fn submit_result(benchmark_result: BenchmarkRequest) -> bool {
     
     let client = reqwest::blocking::Client::new();
 
-    let response = client.post("https://jcbench.uc.r.appspot.com/api/ResultSubmission")
+    let response = client.post("https://www.jcbench.com/api/ResultSubmission")
         .json(&benchmark_result)
         .send().unwrap();
     

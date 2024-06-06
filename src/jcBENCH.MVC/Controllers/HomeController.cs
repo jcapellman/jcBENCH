@@ -22,7 +22,8 @@ namespace jcBENCH.MVC.Controllers
             {
                 BenchmarkResult = row.BenchmarkResult,
                 CPUManufacturer = row.CPUArchitecture,
-                CPUModelName = row.CPUName
+                CPUModelName = row.CPUName,
+                BenchmarkName = row.BenchmarkName
             }).ToList();
 
             return View(topResults);

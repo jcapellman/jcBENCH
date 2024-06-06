@@ -12,16 +12,16 @@ namespace jcBENCH.MVC.DAL.Objects
         public DateTimeOffset Created { get; set; } = DateTimeOffset.Now;
 
         [Required]
-        public string BenchmarkName { get; set; }
+        public required string BenchmarkName { get; set; }
 
         [Required]
-        public string CPUName { get; set; }
+        public required string CPUName { get; set; }
 
         [Required]
-        public string OperatingSystem { get; set; }
+        public required string OperatingSystem { get; set; }
 
         [Required]
-        public string CPUArchitecture { get; set; }
+        public required string CPUArchitecture { get; set; }
 
         [Required]
         public int BenchmarkResult { get; set; }

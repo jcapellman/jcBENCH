@@ -9,8 +9,6 @@ namespace jcBENCH.MVC.DAL.Objects
         [Key]
         public int ID { get; set; }
 
-        public DateTimeOffset Created { get; set; } = DateTimeOffset.Now;
-
         [Required]
         public required string BenchmarkName { get; set; }
 
@@ -22,6 +20,9 @@ namespace jcBENCH.MVC.DAL.Objects
 
         [Required]
         public required string CPUArchitecture { get; set; }
+
+        [Required]
+        public int CPUCoreCount { get; set; }
 
         [Required]
         public int BenchmarkResult { get; set; }

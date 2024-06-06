@@ -1,4 +1,4 @@
-﻿@model List<jcBENCH.MVC.Objects.TopResultsListingItem>
+﻿@model List<jcBENCH.MVC.DAL.Objects.Results>
 
 @{
     ViewData["Title"] = "Home";
@@ -8,30 +8,31 @@
     <h2 class="text-center">jcBENCH</h2>
 
     <a href="https://github.com/jcapellman/jcBENCH/releases/latest" target="_blank" class="btn btn-primary">Download Latest Release</a>
-
-    <div class="img-rounded" style="background-color: #3e3e3e; margin-top: 10px; padding-bottom: 5px;">
-        <div style="background-color: cornflowerblue; padding-top: 5px; padding-bottom: 5px;">
-            <h4>ABOUT</h4>
+    
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">About</h1>
+        
+            <p class="lead">
+                Originally created to answer part of the question, how does Device A compare to Device B from a computation perspective irregardless of the platform?
+                Over time this grew to support BSD, IRIX, Solaris, Android and many other platforms written in C# and C++.  However, supporting two different languages was problematic, so a rewrite into Rust was made to support just modern operating systems.
+            </p>
         </div>
-
-        <p style="padding-top: 5px;">
-            Originally created to answer part of the question, how does Device A compare to Device B from a computation perspective irregardless of the platform?
-            Over time this grew to support BSD, IRIX, Solaris, Android and many other platforms.  The goal with 2.0 is to bring that level of platform agnosticness, but
-            using .NET Core instead of a mixture of C# and C++ ports.
-        </p>
     </div>
-    <br/>
-    <h3>Top @jcBENCH.MVC.Common.Constants.TOP_RESULTS_LIMIT Results</h3>
+
+    <h3>Benchmark Results</h3>
     <Br/>
-    <table class="table table-dark">
-        <thead style="background-color: cornflowerblue;">
-        <tr>
-            <th>#</th>
-            <th>Benchmark</th>
-            <th>Manufacturer</th>
-            <th>Model</th>
-            <th>Benchmark Result</th>
-        </tr>
+    <table class="table table-hover table-dark">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Benchmark Type</th>
+                <th>Score</th>
+                <th>CPU Model</th>
+                <th>CPU Architecture</th>
+                <th>Number of CPU Cores</th>
+                <th>Operating System</th>
+            </tr>
         </thead>
         <tbody>
         @for (var x = 0; x < Model.Count; x++)
@@ -39,9 +40,11 @@
             <tr>
                 <td>@(x+1)</td>
                 <td>@Model[x].BenchmarkName</td>
-                <td>@Model[x].CPUManufacturer</td>
-                <td>@Model[x].CPUModelName</td>
                 <td>@Model[x].BenchmarkResult</td>
+                <td>@Model[x].CPUName</td>
+                <td>@Model[x].CPUArchitecture</td>
+                <td>@Model[x].CPUCoreCount</td>
+                <td>@Model[x].OperatingSystem</td>
             </tr>
         }
         </tbody>

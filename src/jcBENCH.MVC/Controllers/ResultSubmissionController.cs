@@ -30,8 +30,8 @@ namespace jcBENCH.MVC.Controllers
                     CPUArchitecture = submissionItem.cpu_architecture,
                     CPUName = submissionItem.cpu_name,
                     OperatingSystem = submissionItem.os_name,
-                    Created = DateTimeOffset.Now,
-                    BenchmarkName = submissionItem.benchmark_name
+                    BenchmarkName = submissionItem.benchmark_name,
+                    CPUCoreCount = submissionItem.cpu_cores
                 };
 
                 var result = await _dbContext.BenchmarkResults.AddAsync(resultItem);

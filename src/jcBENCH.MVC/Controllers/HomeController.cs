@@ -18,13 +18,7 @@ namespace jcBENCH.MVC.Controllers
 
         public ActionResult Index()
         {
-            var topResults = _dbContext.BenchmarkResults.OrderByDescending(a => a.BenchmarkResult).Take(Common.Constants.TOP_RESULTS_LIMIT).Select(row => new TopResultsListingItem
-            {
-                BenchmarkResult = row.BenchmarkResult,
-                CPUManufacturer = row.CPUArchitecture,
-                CPUModelName = row.CPUName,
-                BenchmarkName = row.BenchmarkName
-            }).ToList();
+            var topResults = _dbContext.BenchmarkResults.OrderByDescending(a => a.BenchmarkResult).ToList();
 
             return View(topResults);
         }

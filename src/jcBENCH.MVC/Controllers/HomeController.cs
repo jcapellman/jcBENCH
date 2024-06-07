@@ -1,5 +1,4 @@
 using jcBENCH.MVC.DAL;
-using jcBENCH.MVC.Objects;
 using Microsoft.AspNetCore.Mvc;
 
 namespace jcBENCH.MVC.Controllers
@@ -16,7 +15,7 @@ namespace jcBENCH.MVC.Controllers
             _logger = logger;
         }
 
-        public ActionResult Download() => View();
+        public ActionResult Downloads() => View();
 
         public ActionResult About() => View();
 

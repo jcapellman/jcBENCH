@@ -26,5 +26,4 @@ jobs:
       with:
         deliverables: app.yaml
         version: v1
-        project_id: ${{ secrets.GCP_PROJECT_ID }}
         working_directory: 'src/jcBENCH.MVC/'

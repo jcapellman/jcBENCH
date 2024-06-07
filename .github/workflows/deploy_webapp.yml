@@ -10,11 +10,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
-    
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        workload_identity_provider: ${{ secrets.GCP_WIP }}
+        service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        credentials_json: ${{ secrets.GCP_SERVICE_CREDENTIALS }}
+        
     - name: Deploy to App Engine
       id: deploy
       uses: google-github-actions/deploy-appengine@v2
@@ -22,6 +28,4 @@ jobs:
         deliverables: app.yaml
         version: v1
         project_id: ${{ secrets.GCP_PROJECT_ID }}
-        credentials: ${{ secrets.GCP_SERVICE_CREDENTIALS }}
         working_directory: 'src/jcBENCH.MVC/'
-        

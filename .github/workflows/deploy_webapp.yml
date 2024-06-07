@@ -17,7 +17,6 @@ jobs:
     - id: 'auth'
       uses: 'google-github-actions/auth@v2'
       with:
-        workload_identity_provider: ${{ secrets.GCP_WIP }}
         service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
         credentials_json: ${{ secrets.GCP_SERVICE_CREDENTIALS }}
         

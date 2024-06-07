@@ -10,32 +10,42 @@
     <p class="lead">
         Below you'll find the benchmark results submitted across operating systems and cpu architectures.
     </p>
+    
+    @foreach (var benchmarkType in Model.Select(a => a.BenchmarkName).Order().Distinct())
+    {
+        <h2>@benchmarkType Benchmark</h2>
 
-    <table class="table table-hover table-dark">
-        <thead class="thead-dark">
-        <tr>
-            <th>#</th>
-            <th>Benchmark Type</th>
-            <th>Score</th>
-            <th>CPU Model</th>
-            <th>CPU Architecture</th>
-            <th>Number of CPU Cores</th>
-            <th>Operating System</th>
-        </tr>
-        </thead>
-        <tbody>
-        @for (var x = 0; x < Model.Count; x++)
-        {
+        <table class="table table-hover table-dark">
+            <thead class="thead-dark">
             <tr>
-                <td>@(x+1)</td>
-                <td>@Model[x].BenchmarkName</td>
-                <td>@Model[x].BenchmarkResult</td>
-                <td>@Model[x].CPUName</td>
-                <td>@Model[x].CPUArchitecture</td>
-                <td>@Model[x].CPUCoreCount</td>
-                <td>@Model[x].OperatingSystem</td>
+                <th>#</th>
+                <th>Score</th>
+                <th>CPU Model</th>
+                <th>CPU Architecture</th>
+                <th>Number of CPU Cores</th>
+                <th>Operating System</th>
             </tr>
-        }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            
+            @{ var x = 1; }
+
+            @foreach (var result in Model.Where(a => a.BenchmarkName == benchmarkType).OrderByDescending(a => a.BenchmarkResult))
+            {
+                <tr>
+                    <td>@x</td>
+                    <td>@result.BenchmarkResult</td>
+                    <td>@result.CPUName</td>
+                    <td>@result.CPUArchitecture</td>
+                    <td>@result.CPUCoreCount</td>
+                    <td>@result.OperatingSystem</td>
+                </tr>
+
+                x++;
+            }
+            
+            </tbody>
+        </table>
+    }
+    
 </div>

@@ -23,4 +23,5 @@ jobs:
         version: v1
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         credentials: ${{ secrets.GCP_SERVICE_CREDENTIALS }}
+        working_directory: 'src/jcBENCH.MVC/'
         

@@ -15,3 +15,8 @@ sysinfo = "0.30.12"
 url = "2.5.0"
 strum = "0.26.2"
 strum_macros = "0.26.4"
+
+[profile.release]
+panic = "abort"
+lto = "fat"
+codegen-units = 1

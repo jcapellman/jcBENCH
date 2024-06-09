@@ -31,7 +31,9 @@ namespace jcBENCH.MVC.Controllers
                     CPUName = submissionItem.cpu_name,
                     OperatingSystem = submissionItem.os_name,
                     BenchmarkName = submissionItem.benchmark_name,
-                    CPUCoreCount = submissionItem.cpu_cores
+                    CPUCoreCount = submissionItem.cpu_cores,
+                    BenchmarkThreadingModel = submissionItem.benchmark_threading_model,
+                    BenchmarkAPIVersion = submissionItem.benchmark_api_version
                 };
 
                 var result = await _dbContext.BenchmarkResults.AddAsync(resultItem);

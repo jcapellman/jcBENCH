@@ -45,7 +45,7 @@ fn run_benchmark<T: Benchmark>(selected_benchmark: T) -> u32 {
     return number_iterations;
 }
 
-fn parse_args(args: Vec<String>) -> (Box<dyn Benchmark>, Benchmarks) {
+fn parse_args(args: Vec<String>) -> (Box<dyn Benchmark>, Benchmarks, u32, BenchmarkSettings) {
     let mut settings = BenchmarkSettings {
         multi_threaded: false
     };
@@ -70,10 +70,10 @@ fn parse_args(args: Vec<String>) -> (Box<dyn Benchmark>, Benchmarks) {
         Benchmarks::SHA1 => Box::new(benchmark_sha1::BenchmarkSHA1 {})
     };
 
-    return (selected_benchmark, benchmark_selection);
+    return (selected_benchmark, benchmark_selection, 2, settings);
 }
 
-fn retrieve_sysinfo(selected_benchmark_name: &Benchmarks, benchmark_result: u32) -> BenchmarkRequest {
+fn retrieve_sysinfo(selected_benchmark_name: &Benchmarks, selected_benchmark_api: u32, benchmark_settings: BenchmarkSettings, benchmark_result: u32) -> BenchmarkRequest {
     let mut sys = System::new_all();
     
     sys.refresh_all();
@@ -94,8 +94,8 @@ fn retrieve_sysinfo(selected_benchmark_name: &Benchmarks, benchmark_result: u32)
         os_name: env::consts::OS.to_string(),
         cpu_architecture: env::consts::ARCH.to_string(),
         benchmark_name: selected_benchmark_name.to_string(),
-        benchmark_api_version: 2,
-        benchmark_threading_model: "Single".to_string()
+        benchmark_api_version: selected_benchmark_api,
+        benchmark_threading_model: if benchmark_settings.multi_threaded { "Multi".to_string() } else { "Single".to_string() }
     };
 }
 
@@ -106,17 +106,18 @@ fn main() {
     
     let args: Vec<String> = env::args().collect();
 
-    let (selected_benchmark, selected_benchmark_name) = parse_args(args);
+    let (selected_benchmark, selected_benchmark_name, selected_benchmark_api_version, benchmark_settings) = parse_args(args);
 
     let result:u32 = run_benchmark(selected_benchmark);
 
-    let benchmark_result = retrieve_sysinfo(&selected_benchmark_name, result);
+    let benchmark_result = retrieve_sysinfo(&selected_benchmark_name, selected_benchmark_api_version, benchmark_settings, result);
 
     println!("----------------");
     println!("Benchmark Result");
     println!("----------------");
     println!("Type: {}", &selected_benchmark_name);
     println!("Score: {result}");
+    println!("Threading: {}", benchmark_result.benchmark_threading_model);
     println!("----------------\n");
 
     println!("---------------");

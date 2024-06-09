@@ -11,4 +11,8 @@ impl benchmark::Benchmark for BenchmarkMD5 {
 
 		return "True".to_string();
 	}
+
+	fn get_api_version(&self) -> u32 {
+		return 2;
+	}
 }

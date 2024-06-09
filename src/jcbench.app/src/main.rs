@@ -25,6 +25,8 @@ pub struct BenchmarkSettings {
 pub struct BenchmarkRequest {
     os_name: String,
     benchmark_name: String,
+    benchmark_threading_model: String,
+    benchmark_api_version: u32,
     cpu_name: String,
     cpu_architecture: String,
     cpu_cores: usize,
@@ -117,7 +119,9 @@ fn retrieve_sysinfo(selected_benchmark_name: Benchmarks, benchmark_result: u32) 
         score: benchmark_result,
         os_name: env::consts::OS.to_string(),
         cpu_architecture: env::consts::ARCH.to_string(),
-        benchmark_name: selected_benchmark_name.to_string()
+        benchmark_name: selected_benchmark_name.to_string(),
+        benchmark_api_version: 2,
+        benchmark_threading_model: "Single".to_string()
     };
 }
 

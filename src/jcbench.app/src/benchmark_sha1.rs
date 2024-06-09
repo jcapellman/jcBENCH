@@ -15,4 +15,8 @@ impl benchmark::Benchmark for BenchmarkSHA1 {
 
 		return "True".to_string();
 	}
+
+	fn get_api_version(&self) -> u32 {
+		return 2;
+	}
 }

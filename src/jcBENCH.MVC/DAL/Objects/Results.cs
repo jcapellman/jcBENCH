@@ -10,9 +10,6 @@ namespace jcBENCH.MVC.DAL.Objects
         public int ID { get; set; }
 
         [Required]
-        public required string BenchmarkName { get; set; }
-
-        [Required]
         public required string CPUName { get; set; }
 
         [Required]
@@ -25,6 +22,15 @@ namespace jcBENCH.MVC.DAL.Objects
         public int CPUCoreCount { get; set; }
 
         [Required]
+        public required string BenchmarkName { get; set; }
+
+        [Required]
         public int BenchmarkResult { get; set; }
+
+        [Required]
+        public int BenchmarkAPIVersion { get; set; }
+
+        [Required]
+        public required string BenchmarkThreadingModel { get; set; }
     }
 }

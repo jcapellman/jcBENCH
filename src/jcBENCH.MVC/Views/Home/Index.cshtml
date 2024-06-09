@@ -29,9 +29,12 @@
                 </thead>
                 <tbody>
             
-                @{ var x = 1; }
+                @{
+                    var x = 1;
+                    var latestAPIVersion = Model.Where(a => a.BenchmarkName == benchmarkType && a.BenchmarkThreadingModel == threadingType).Max(a => a.BenchmarkAPIVersion);
+                }
 
-                @foreach (var result in Model.Where(a => a.BenchmarkName == benchmarkType).OrderByDescending(a => a.BenchmarkResult))
+                @foreach (var result in Model.Where(a => a.BenchmarkName == benchmarkType && a.BenchmarkThreadingModel == threadingType && a.BenchmarkAPIVersion == latestAPIVersion).OrderByDescending(a => a.BenchmarkResult))
                 {
                     <tr>
                         <td>@x</td>

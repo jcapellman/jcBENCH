@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/runtime-deps:8.0-alpine3.19 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 as base
 USER app
 WORKDIR /app
 EXPOSE 8080

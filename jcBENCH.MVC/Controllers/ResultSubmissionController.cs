@@ -7,18 +7,9 @@ namespace jcBENCH.MVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ResultSubmissionController : ControllerBase
+    public class ResultSubmissionController(ILogger logger, MainDbContext dbContext)
+        : ControllerBase
     {
-        private readonly ILogger<ResultSubmissionController> _logger;
-
-        private readonly MainDbContext _dbContext;
-
-        public ResultSubmissionController(ILogger<ResultSubmissionController> logger, MainDbContext dbContext)
-        {
-            this._dbContext = dbContext;
-            this._logger = logger;
-        }
-
         [HttpPost]
         public async Task<bool> SubmitAsync([FromBody] ResultSubmissionItem submissionItem)
         {
@@ -36,13 +27,13 @@ namespace jcBENCH.MVC.Controllers
                     BenchmarkAPIVersion = submissionItem.benchmark_api_version
                 };
 
-                var result = await _dbContext.BenchmarkResults.AddAsync(resultItem);
+                var result = await dbContext.BenchmarkResults.AddAsync(resultItem);
 
-                return await _dbContext.SaveChangesAsync() > 0;
+                return await dbContext.SaveChangesAsync() > 0;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Failed to submit {submissionItem}");
+                logger.LogError(ex, $"Failed to submit {submissionItem}");
                 return false;
             }
         }

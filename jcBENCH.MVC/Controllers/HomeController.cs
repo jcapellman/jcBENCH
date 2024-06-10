@@ -13,5 +13,7 @@ namespace jcBENCH.MVC.Controllers
         public ActionResult About() => View();
 
         public ActionResult Index() => View(_dbContext.BenchmarkResults.OrderByDescending(a => a.BenchmarkResult).ToList());
+
+        public ActionResult Archives() => View(_dbContext.BenchmarkResults.OrderBy(a => a.BenchmarkName).ToList());
     }
 }

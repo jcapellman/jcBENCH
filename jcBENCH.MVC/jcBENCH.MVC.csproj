@@ -6,7 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <EnableSdkContainerDebugging>True</EnableSdkContainerDebugging>
     <UserSecretsId>e70187b8-6965-4b43-a60e-365f725bf685</UserSecretsId>
-	<RuntimeIdentifier>linux-musl-x64</RuntimeIdentifier>
 	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	<ContainerRepository>jcbench-web-mvc</ContainerRepository>
 	<ContainerFamily>alpine</ContainerFamily>

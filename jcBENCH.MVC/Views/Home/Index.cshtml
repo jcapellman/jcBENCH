@@ -8,7 +8,7 @@
     <h1 class="display-4">Benchmark Results</h1>
     
     <p class="lead">
-        Below you'll find the benchmark results submitted across operating systems and cpu architectures that utilize the latest Benchmark API. Archives of older API versions will be available at a later date.
+        Below you'll find the benchmark results submitted across operating systems and cpu architectures that utilize the latest Benchmark API. To view the Archives click <a href="@Url.Action("Archives", "Home")">here</a>.
     </p>
     
     @foreach (var benchmarkType in Model.Select(a => a.BenchmarkName).Order().Distinct())

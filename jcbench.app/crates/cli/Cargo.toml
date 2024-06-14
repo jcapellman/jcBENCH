@@ -1,0 +1,11 @@
+[package]
+name = "cli"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+url = "2.5.0"
+benchmark = { path = "../benchmark" }
+benchmark_settings = { path = "../benchmark_settings" }
+benchmark_submission = { path = "../benchmark_submission" }

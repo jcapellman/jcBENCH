@@ -1,0 +1,9 @@
+[package]
+name = "benchmark_settings"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+strum = "0.26.2"
+strum_macros = "0.26.4"

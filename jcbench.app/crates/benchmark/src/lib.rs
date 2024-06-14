@@ -1,10 +1,15 @@
 use std::ops::Deref;
+use benchmark_md5::BenchmarkMD5;
+use benchmark_sha1::BenchmarkSHA1;
 use chrono;
+
+mod benchmark_md5;
+mod benchmark_sha1;
 
 pub trait Benchmark {
 	fn run(&self) -> String;
 
-    fn get_api_version(&self) -> u32;
+    fn get_api_version(&self) -> usize;
 }
 
 impl Benchmark for Box<dyn Benchmark> {
@@ -12,12 +17,22 @@ impl Benchmark for Box<dyn Benchmark> {
         self.deref().run()
     }
 
-    fn get_api_version(&self) -> u32 {
+    fn get_api_version(&self) -> usize {
         self.deref().get_api_version()
     }
 }
 
-pub fn run_benchmark<T: Benchmark>(selected_benchmark: T) -> u32 {
+fn get_benchmark(selected_benchmark_name: String) -> Box<dyn Benchmark> {
+    if selected_benchmark_name == "MD5" {
+        return Box::new(BenchmarkMD5 {});
+    } else { 
+        return Box::new(BenchmarkSHA1 {});
+    }
+}
+
+pub fn run_benchmark(selected_benchmark_name: String) -> (u32, usize) {
+    let selected_benchmark = get_benchmark(selected_benchmark_name);
+    
     const SECONDS_TO_RUN:i64 = 2;
 
     let start_time = chrono::offset::Local::now();
@@ -36,5 +51,5 @@ pub fn run_benchmark<T: Benchmark>(selected_benchmark: T) -> u32 {
         number_iterations = number_iterations + 1;
     }
 
-    return number_iterations;
+    return (number_iterations, selected_benchmark.get_api_version());
 }

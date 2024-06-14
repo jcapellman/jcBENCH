@@ -1,11 +1,11 @@
-use crate::benchmark;
-
 use chrono;
 use sha1::{Sha1, Digest};
 
+use crate::Benchmark;
+
 pub struct BenchmarkSHA1 { }
 
-impl benchmark::Benchmark for BenchmarkSHA1 {
+impl Benchmark for BenchmarkSHA1 {
 	fn run(&self) -> String {
 		let mut hasher = Sha1::new();
 
@@ -16,7 +16,7 @@ impl benchmark::Benchmark for BenchmarkSHA1 {
 		return "True".to_string();
 	}
 
-	fn get_api_version(&self) -> u32 {
+	fn get_api_version(&self) -> usize {
 		return 2;
 	}
 }

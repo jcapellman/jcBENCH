@@ -12,17 +12,10 @@ pub fn run() {
 
     let settings = parse_args(args);
     
-    let benchmark_result = BenchmarkRequest {
-        os_name: todo!(),
-        benchmark_name: todo!(),
-        benchmark_threading_model: todo!(),
-        benchmark_api_version: todo!(),
-        cpu_name: todo!(),
-        cpu_architecture: todo!(),
-        cpu_cores: todo!(),
-        score: todo!(),
-    };
-    
+    let (benchmark_score, benchmark_api_version) = benchmark::run_benchmark(settings.selected_benchmark.to_string());
+
+    let benchmark_result = benchmark_submission::get_benchmark_request(settings.selected_benchmark.to_string(), benchmark_api_version, settings, benchmark_score);
+
     benchmark_submission::print_benchmark_request(&benchmark_result);
     
     println!("Do you want to submit your result with the above information (y/n)?");

@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "jcBENCH.App", "jcBENCH.App"
 		jcbench.app\src\benchmark_sha1.rs = jcbench.app\src\benchmark_sha1.rs
 		jcbench.app\Cargo.toml = jcbench.app\Cargo.toml
 		jcbench.app\src\cpuinfo.rs = jcbench.app\src\cpuinfo.rs
+		jcbench.app\crates\cli\src\lib.rs = jcbench.app\crates\cli\src\lib.rs
 		jcbench.app\src\main.rs = jcbench.app\src\main.rs
 	EndProjectSection
 EndProject

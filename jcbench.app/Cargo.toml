@@ -2,21 +2,20 @@
 name = "jcbench"
 version = "2024.6.0"
 edition = "2021"
-
-[dependencies]
-chrono = "0.4.38"
-reqwest = { version = "0.12", features = ["json", "blocking"] }
-tokio = { version = "1", features = ["full"] }
-md5 = "0.7.0"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0.117"
-sha1 = "0.10.6"
-sysinfo = "0.30.12"
-url = "2.5.0"
-strum = "0.26.2"
-strum_macros = "0.26.4"
+publish = false
 
 [profile.release]
 panic = "abort"
 lto = "fat"
 codegen-units = 1
+
+[workspace]
+members = [ 
+	"crates/benchmark", 
+	"crates/benchmark_settings", 
+	"crates/benchmark_submission",
+	"crates/cli", 
+	"crates/cpuinfo"]
+
+[dependencies]
+cli = { path = "./crates/cli" }

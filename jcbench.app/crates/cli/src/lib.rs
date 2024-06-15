@@ -1,7 +1,6 @@
 use std::env;
 
 use benchmark_settings::parse_args;
-use benchmark_submission::BenchmarkRequest;
 
 pub fn run() {
 	println!("jcBENCH 2024.6.0 (RUST Edition)");

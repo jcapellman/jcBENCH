@@ -7,35 +7,26 @@ namespace jcBENCH.MVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ResultSubmissionController(ILogger logger, MainDbContext dbContext)
-        : ControllerBase
+    public class ResultSubmissionController(MainDbContext dbContext) : ControllerBase
     {
         [HttpPost]
         public async Task<bool> SubmitAsync([FromBody] ResultSubmissionItem submissionItem)
         {
-            try
+            var resultItem = new Results
             {
-                var resultItem = new Results
-                {
-                    BenchmarkResult = submissionItem.score,
-                    CPUArchitecture = submissionItem.cpu_architecture,
-                    CPUName = submissionItem.cpu_name,
-                    OperatingSystem = submissionItem.os_name,
-                    BenchmarkName = submissionItem.benchmark_name,
-                    CPUCoreCount = submissionItem.cpu_cores,
-                    BenchmarkThreadingModel = submissionItem.benchmark_threading_model,
-                    BenchmarkAPIVersion = submissionItem.benchmark_api_version
-                };
+                BenchmarkResult = submissionItem.score,
+                CPUArchitecture = submissionItem.cpu_architecture,
+                CPUName = submissionItem.cpu_name,
+                OperatingSystem = submissionItem.os_name,
+                BenchmarkName = submissionItem.benchmark_name,
+                CPUCoreCount = submissionItem.cpu_cores,
+                BenchmarkThreadingModel = submissionItem.benchmark_threading_model,
+                BenchmarkAPIVersion = submissionItem.benchmark_api_version
+            };
 
-                var result = await dbContext.BenchmarkResults.AddAsync(resultItem);
+            var result = await dbContext.BenchmarkResults.AddAsync(resultItem);
 
-                return await dbContext.SaveChangesAsync() > 0;
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, $"Failed to submit {submissionItem}");
-                return false;
-            }
+            return await dbContext.SaveChangesAsync() > 0;
         }
     }
 }

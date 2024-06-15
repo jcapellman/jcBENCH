@@ -14,10 +14,10 @@ fn read_proc_cpuinfo() -> HashMap<String, String> {
         if line_split.len() == 1 {
             continue;
         }
-
+        
         let key = line_split[0].trim();
         let value = line_split[1].trim();
-            
+        
         dict.entry(key.to_string()).or_insert(value.to_string());
     }
 
@@ -25,13 +25,29 @@ fn read_proc_cpuinfo() -> HashMap<String, String> {
 }
 
 fn get_key(info: HashMap<String, String>, key: &str) -> String {
-    return info.get(key).unwrap().to_string();
+    let key = info.get(key);
+
+    if key == None {
+        return "".to_string();
+    }
+
+    return key.unwrap().to_string();
 }
 
 impl PlatformInfo for LinuxPlatformInfo {
     fn get_cpu_name() -> String {
         let proc_cpuinfo = read_proc_cpuinfo();
 
-        return get_key(proc_cpuinfo, "uarch");
+        let mut cpu_name = get_key(proc_cpuinfo.clone(), "uarch");
+
+        if cpu_name == "" {
+            cpu_name = get_key(proc_cpuinfo.clone(), "model name");
+        }
+
+        if cpu_name == "" {
+            return "Unknown".to_string();
+        }
+
+        return cpu_name;
     }
 }

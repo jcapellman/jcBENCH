@@ -1,4 +1,5 @@
 using System.Diagnostics;
+
 using jcBENCH.MVC.Common;
 using jcBENCH.MVC.DAL;
 using jcBENCH.MVC.Models;
@@ -14,9 +15,9 @@ namespace jcBENCH.MVC.Controllers
         [OutputCache(Duration = AppConstants.Output_Cache_Duration_Seconds)]
         public async Task<ActionResult> Downloads()
         {
-            var client = new GitHubClient(new ProductHeaderValue("jcapellman"));
+            var client = new GitHubClient(new ProductHeaderValue(AppConstants.GitHub_Owner_Name));
 
-            var releases = await client.Repository.Release.GetAll("jcapellman", "jcBENCH");
+            var releases = await client.Repository.Release.GetAll(AppConstants.GitHub_Owner_Name, AppConstants.GitHub_Repository_Name);
 
             var downloads = releases.Where(a => a.Assets.Any() && a.PublishedAt is not null).Take(AppConstants.GitHub_Release_Limit)
                 .Select(release =>

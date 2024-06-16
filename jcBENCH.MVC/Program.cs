@@ -35,8 +35,9 @@ namespace jcBENCH.MVC
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            
             app.UseRouting();
+            app.UseOutputCache();
 
             app.UseAuthorization();
 

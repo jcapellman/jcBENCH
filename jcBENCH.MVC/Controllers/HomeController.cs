@@ -12,14 +12,14 @@ namespace jcBENCH.MVC.Controllers
 {
     public class HomeController(MainDbContext dbContext) : Controller
     {
-        [OutputCache(Duration = AppConstants.Output_Cache_Duration_Seconds)]
+        [OutputCache(Duration = AppConstants.OutputCacheDurationSeconds)]
         public async Task<ActionResult> Downloads()
         {
-            var client = new GitHubClient(new ProductHeaderValue(AppConstants.GitHub_Owner_Name));
+            var client = new GitHubClient(new ProductHeaderValue(AppConstants.GitHubOwnerName));
 
-            var releases = await client.Repository.Release.GetAll(AppConstants.GitHub_Owner_Name, AppConstants.GitHub_Repository_Name);
+            var releases = await client.Repository.Release.GetAll(AppConstants.GitHubOwnerName, AppConstants.GitHubRepositoryName);
 
-            var downloads = releases.Where(a => a.Assets.Any() && a.PublishedAt is not null).Take(AppConstants.GitHub_Release_Limit)
+            var downloads = releases.Where(a => a.Assets.Any() && a.PublishedAt is not null).Take(AppConstants.GitHubReleaseLimit)
                 .Select(release =>
                 {
                     Debug.Assert(release.PublishedAt != null, "release.PublishedAt != null");

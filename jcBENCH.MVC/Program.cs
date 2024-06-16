@@ -15,6 +15,7 @@ namespace jcBENCH.MVC
             
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddOutputCache();
 
             var configuration = builder.Configuration.GetSection("DbContext");
 

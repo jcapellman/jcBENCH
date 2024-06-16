@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<jcBENCH.MVC.Models.ReleaseResponseItem>
+
+@{
     ViewData["Title"] = "Downloads";
 }
 
@@ -7,27 +9,24 @@
         <h1 class="display-4">Downloads</h1>
         
         <p class="lead">
-            Below you'll find the latest releases of jcBENCH to download.
+            Below you'll find the releases of jcBENCH to download from GitHub.
         </p>
         
-        <div class="card bg-dark text-white">
-            <h5 class="card-header">2024.6.0 (Pre-Release)</h5>
-            <div class="card-body">
-                <h5 class="card-title">2nd Rust Release</h5>
-                <p class="card-text">Refactoring of the code</p>
-                <a href="https://github.com/jcapellman/jcBENCH/releases/download/v2024.6.0/jcbench.exe" class="btn btn-primary">Download Windows (x86-64)</a>
-                <a href="https://github.com/jcapellman/jcBENCH/releases/download/v2024.6.0/jcbench" class="btn btn-primary">Download Linux (x86-64)</a>
+        @foreach (var release in @Model)
+        {
+            <div class="card bg-dark text-white">
+                <div class="card-body">
+                    <h5 class="card-title">@release.Version (@release.ReleaseDate.Date.ToShortDateString())</h5>
+                    <p class="card-text">@release.Description</p>
+                    
+                    @foreach (var download in release.Downloads)
+                    {
+                        <a href="@download.URL" class="btn btn-primary">@download.Label</a>
+                    }
+                </div>
             </div>
-        </div>
 
-        <div class="card bg-dark text-white">
-            <h5 class="card-header">2024.5.0 (Pre-Release)</h5>
-            <div class="card-body">
-                <h5 class="card-title">Initial Rust Release</h5>
-                <p class="card-text">Supports both MD5 and SHA1 Hashing Benchmarks, but no multi-threading support yet like prior releases.</p>
-                <a href="https://github.com/jcapellman/jcBENCH/releases/download/v2024.5.0/jcbench.exe" class="btn btn-primary">Download Windows (x86-64)</a>
-                <a href="https://github.com/jcapellman/jcBENCH/releases/download/v2024.5.0/jcbench" class="btn btn-primary">Download Linux (RISC-V)</a>
-            </div>
-        </div>
+            <br/>
+        }
     </div>
 </div>

@@ -6,12 +6,14 @@ pub enum AvailableBenchmarks {
 
 pub struct BenchmarkSettings {
 	pub multi_threaded: bool,
+    pub seconds_to_run: i64,
     pub selected_benchmark: AvailableBenchmarks
 }
 
 pub fn parse_args(args: Vec<String>) -> BenchmarkSettings {
     let mut settings = BenchmarkSettings {
         multi_threaded: false,
+        seconds_to_run: 20,
         selected_benchmark: AvailableBenchmarks::MD5
     };
     

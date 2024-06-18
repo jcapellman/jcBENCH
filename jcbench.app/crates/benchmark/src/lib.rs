@@ -2,6 +2,7 @@ use std::ops::Deref;
 use benchmark_md5::BenchmarkMD5;
 use benchmark_sha1::BenchmarkSHA1;
 use chrono;
+use benchmark_settings::BenchmarkSettings;
 
 mod benchmark_md5;
 mod benchmark_sha1;
@@ -23,27 +24,25 @@ impl Benchmark for Box<dyn Benchmark> {
 }
 
 fn get_benchmark(selected_benchmark_name: String) -> Box<dyn Benchmark> {
-    if selected_benchmark_name == "MD5" {
-        return Box::new(BenchmarkMD5 {});
-    } else { 
-        return Box::new(BenchmarkSHA1 {});
+    return if selected_benchmark_name == "MD5" {
+        Box::new(BenchmarkMD5 {})
+    } else {
+        Box::new(BenchmarkSHA1 {})
     }
 }
 
-pub fn run_benchmark(selected_benchmark_name: String) -> (u32, usize) {
+pub fn run_benchmark(selected_benchmark_name: String, settings: &BenchmarkSettings) -> (u32, usize) {
     let selected_benchmark = get_benchmark(selected_benchmark_name);
-    
-    const SECONDS_TO_RUN:i64 = 2;
 
     let start_time = chrono::offset::Local::now();
 
     let mut number_iterations:u32 = 0;
 
-    while (chrono::offset::Local::now() - start_time).num_seconds() < SECONDS_TO_RUN
+    while (chrono::offset::Local::now() - start_time).num_seconds() < settings.seconds_to_run
     {
         let _result = selected_benchmark.run();
         
-        if (chrono::offset::Local::now() - start_time).num_seconds() > SECONDS_TO_RUN
+        if (chrono::offset::Local::now() - start_time).num_seconds() > settings.seconds_to_run
         {
             break;
         }

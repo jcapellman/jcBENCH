@@ -3,7 +3,7 @@ use std::env;
 use benchmark_settings::parse_args;
 
 pub fn run() {
-	println!("jcBENCH 2024.6.0 (RUST Edition)");
+	println!("jcBENCH 2024.6.2");
 	println!("(C) 2012-2024 Jarred Capellman");
 	println!("Source code is available on https://github.com/jcapellman/jcBENCH");
 
@@ -11,7 +11,7 @@ pub fn run() {
 
     let settings = parse_args(args);
     
-    let (benchmark_score, benchmark_api_version) = benchmark::run_benchmark(settings.selected_benchmark.to_string());
+    let (benchmark_score, benchmark_api_version) = benchmark::run_benchmark(settings.selected_benchmark.to_string(), &settings);
 
     let benchmark_result = benchmark_submission::get_benchmark_request(settings.selected_benchmark.to_string(), benchmark_api_version, settings, benchmark_score);
 

@@ -15,8 +15,7 @@ namespace jcBENCH.MVC
             
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddOutputCache();
-
+            
             var configuration = builder.Configuration.GetSection("DbContext");
 
             if (configuration.Value is null)
@@ -37,8 +36,7 @@ namespace jcBENCH.MVC
             app.UseStaticFiles();
             
             app.UseRouting();
-            app.UseOutputCache();
-
+            
             app.UseAuthorization();
 
             app.MapControllerRoute(

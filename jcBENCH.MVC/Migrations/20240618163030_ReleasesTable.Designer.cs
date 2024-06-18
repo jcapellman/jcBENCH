@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using jcBENCH.MVC.DAL;
@@ -11,9 +12,11 @@ using jcBENCH.MVC.DAL;
 namespace jcBENCH.MVC.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240618163030_ReleasesTable")]
+    partial class ReleasesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,40 +24,6 @@ namespace jcBENCH.MVC.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("jcBENCH.MVC.DAL.Objects.ReleaseArtifacts", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("Architecture")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("DownloadURI")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("OperatingSystem")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("ReleaseID")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ReleaseID");
-
-                    b.ToTable("ReleaseArtifacts");
-                });
 
             modelBuilder.Entity("jcBENCH.MVC.DAL.Objects.Releases", b =>
                 {
@@ -123,22 +92,6 @@ namespace jcBENCH.MVC.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("BenchmarkResults");
-                });
-
-            modelBuilder.Entity("jcBENCH.MVC.DAL.Objects.ReleaseArtifacts", b =>
-                {
-                    b.HasOne("jcBENCH.MVC.DAL.Objects.Releases", "Release")
-                        .WithMany("ReleaseArtifacts")
-                        .HasForeignKey("ReleaseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Release");
-                });
-
-            modelBuilder.Entity("jcBENCH.MVC.DAL.Objects.Releases", b =>
-                {
-                    b.Navigation("ReleaseArtifacts");
                 });
 #pragma warning restore 612, 618
         }

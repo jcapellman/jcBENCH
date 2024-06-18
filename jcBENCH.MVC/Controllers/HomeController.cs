@@ -1,40 +1,17 @@
-using System.Diagnostics;
-
-using jcBENCH.MVC.Common;
 using jcBENCH.MVC.DAL;
-using jcBENCH.MVC.Models;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
-using Octokit;
+using Microsoft.EntityFrameworkCore;
 
 namespace jcBENCH.MVC.Controllers
 {
     public class HomeController(MainDbContext dbContext) : Controller
     {
-        [OutputCache(Duration = AppConstants.OutputCacheDurationSeconds)]
-        public async Task<ActionResult> Downloads()
+        public ActionResult Downloads()
         {
-            var client = new GitHubClient(new ProductHeaderValue(AppConstants.GitHubOwnerName));
+            var releases = dbContext.Releases.Include(a => a.ReleaseArtifacts).OrderByDescending(a => a.ReleaseDate).ToList();
 
-            var releases = await client.Repository.Release.GetAll(AppConstants.GitHubOwnerName, AppConstants.GitHubRepositoryName);
-
-            var downloads = releases.Where(a => a.Assets.Any() && a.PublishedAt is not null).Take(AppConstants.GitHubReleaseLimit)
-                .Select(release =>
-                {
-                    Debug.Assert(release.PublishedAt != null, "release.PublishedAt != null");
-
-                    return new ReleaseResponseItem
-                    {
-                        Description = release.Body,
-                        Version = release.Name,
-                        ReleaseDate = release.PublishedAt.Value,
-                        Downloads = release.Assets.Select(a => new DownloadResponseItem
-                            { Label = a.Name, URL = a.BrowserDownloadUrl }).ToList()
-                    };
-                }).ToList();
-
-            return View(downloads);
+            return View(releases);
         }
 
         public ActionResult About() => View();

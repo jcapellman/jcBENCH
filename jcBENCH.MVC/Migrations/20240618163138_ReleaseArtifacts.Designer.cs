@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using jcBENCH.MVC.DAL;
@@ -11,9 +12,11 @@ using jcBENCH.MVC.DAL;
 namespace jcBENCH.MVC.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240618163138_ReleaseArtifacts")]
+    partial class ReleaseArtifacts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,17 +131,12 @@ namespace jcBENCH.MVC.Migrations
             modelBuilder.Entity("jcBENCH.MVC.DAL.Objects.ReleaseArtifacts", b =>
                 {
                     b.HasOne("jcBENCH.MVC.DAL.Objects.Releases", "Release")
-                        .WithMany("ReleaseArtifacts")
+                        .WithMany()
                         .HasForeignKey("ReleaseID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Release");
-                });
-
-            modelBuilder.Entity("jcBENCH.MVC.DAL.Objects.Releases", b =>
-                {
-                    b.Navigation("ReleaseArtifacts");
                 });
 #pragma warning restore 612, 618
         }

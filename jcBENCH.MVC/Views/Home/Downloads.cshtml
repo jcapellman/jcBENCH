@@ -1,4 +1,4 @@
-﻿@model List<jcBENCH.MVC.Models.ReleaseResponseItem>
+﻿@model List<jcBENCH.MVC.DAL.Objects.Releases>
 
 @{
     ViewData["Title"] = "Downloads";
@@ -16,12 +16,12 @@
         {
             <div class="card bg-dark text-white">
                 <div class="card-body">
-                    <h5 class="card-title">@release.Version (@release.ReleaseDate.Date.ToShortDateString())</h5>
+                    <h5 class="card-title">@release.Name (@release.ReleaseDate.Date.ToShortDateString())</h5>
                     <p class="card-text">@release.Description</p>
                     
-                    @foreach (var download in release.Downloads)
+                    @foreach (var download in release.ReleaseArtifacts)
                     {
-                        <a href="@download.URL" class="btn btn-primary">@download.Label</a>
+                        <a href="@download.DownloadURI" class="btn btn-primary">@download.Description</a>
                     }
                 </div>
             </div>

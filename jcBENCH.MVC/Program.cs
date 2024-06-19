@@ -58,8 +58,13 @@ namespace jcBENCH.MVC
 
             app.UseExceptionHandler("/Home/Error");
             app.UseHsts();
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseDeveloperExceptionPage();
+                app.UseSwaggerUI();
+            }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

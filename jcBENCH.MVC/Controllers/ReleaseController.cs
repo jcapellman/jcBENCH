@@ -36,5 +36,23 @@ namespace jcBENCH.MVC.Controllers
 
             return await dbContext.SaveChangesAsync() > 0;
         }
+
+        [HttpPost]
+        [Route("/api/release/{releaseId}/")]
+        public async Task<bool> AddNewReleaseArtifact(int releaseId, ReleaseArtifactRequestItem artifact)
+        {
+            var releaseArtifact = new ReleaseArtifacts
+            {
+                Architecture = artifact.Architecture,
+                Description = artifact.Description,
+                DownloadURI = artifact.DownloadURI,
+                OperatingSystem = artifact.OperatingSystem,
+                ReleaseID = releaseId
+            };
+
+            await dbContext.ReleaseArtifacts.AddAsync(releaseArtifact);
+
+            return await dbContext.SaveChangesAsync() > 0;
+        }
     }
 }

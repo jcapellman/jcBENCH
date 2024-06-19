@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace jcBENCH.MVC.Controllers.API
 {
+    [Route("/api/release")]
     public class ReleaseController(MainDbContext dbContext) : BaseApiController
     {
         [Authorize]
@@ -40,7 +41,7 @@ namespace jcBENCH.MVC.Controllers.API
 
         [Authorize]
         [HttpPost]
-        [Route("/api/release/{releaseId}/")]
+        [Route("{releaseId}/")]
         public async Task<bool> AddNewReleaseArtifact(int releaseId, ReleaseArtifactRequestItem artifact)
         {
             var releaseArtifact = new ReleaseArtifacts

@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace jcBENCH.MVC.Controllers.API
 {
+    [Route("/api/account")]
     public class AccountController(ApiConfiguration apiConfiguration) : BaseApiController
     {
         private string GenerateToken(string hashToken)

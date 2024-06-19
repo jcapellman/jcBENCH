@@ -6,6 +6,7 @@ using Results = jcBENCH.MVC.DAL.Objects.Results;
 
 namespace jcBENCH.MVC.Controllers.API
 {
+    [Route("api/resultsubmission")]
     public class ResultSubmissionController(MainDbContext dbContext) : BaseApiController
     {
         [HttpPost]

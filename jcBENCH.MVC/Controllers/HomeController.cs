@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace jcBENCH.MVC.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("")]
     public class HomeController(MainDbContext dbContext) : Controller
     {

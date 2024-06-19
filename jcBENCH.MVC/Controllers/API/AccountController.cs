@@ -41,7 +41,7 @@ namespace jcBENCH.MVC.Controllers.API
         {
             var hashToken = (userLogin.UserName + userLogin.Password).ToSha256();
 
-            if (hashToken != apiConfiguration.JWTHashToken)
+            if (!string.Equals(hashToken, apiConfiguration.JWTHashToken, StringComparison.InvariantCultureIgnoreCase))
             {
                 return Forbid();
             }

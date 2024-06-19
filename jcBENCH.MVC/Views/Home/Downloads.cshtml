@@ -9,19 +9,34 @@
         <h1 class="display-4">Downloads</h1>
         
         <p class="lead">
-            Below you'll find the releases of jcBENCH to download from GitHub.
+            Below you'll find the releases of jcBENCH to download, some of the older archived releases from 2012 to 2014 will be made available in time.
         </p>
         
         @foreach (var release in @Model)
         {
             <div class="card bg-dark text-white">
+                <div class="card-header" style="background-color: #24292A !important;padding-bottom: 0px !important">
+                    <h4 class="card-title">
+                        @release.Name
+                        @if (release.IsPreRelease)
+                        {
+                            <span class="badge bg-secondary">Pre-Release</span>
+                        }
+                    </h4>
+                    <p class="card-subtitle mb-2">Released on @release.ReleaseDate.Date.ToShortDateString()</p>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">@release.Name (@release.ReleaseDate.Date.ToShortDateString())</h5>
-                    <p class="card-text">@release.Description</p>
                     
+                    <p class="card-text">@release.Description</p>
+                </div>
+                <div class="card-footer" style="background-color: #202226 !important">
+                    <p class="card-subtitle" style="padding-bottom: 10px">Available Downloads:</p>
                     @foreach (var download in release.ReleaseArtifacts)
                     {
-                        <a href="@download.DownloadURI" class="btn btn-primary">@download.Description</a>
+                        <a href="@download.DownloadURI" class="btn btn-primary">
+                            <i class="bi-@download.OperatingSystem" style="font-size: 1rem; color: white; padding-right: 5px"></i>
+                            @download.Description
+                        </a>
                     }
                 </div>
             </div>

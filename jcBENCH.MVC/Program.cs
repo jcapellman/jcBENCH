@@ -1,5 +1,10 @@
+using System.Diagnostics;
+using jcBENCH.MVC.Configuration;
 using jcBENCH.MVC.DAL;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace jcBENCH.MVC
 {
@@ -11,11 +16,35 @@ namespace jcBENCH.MVC
             
             builder.Configuration.AddEnvironmentVariables();
 
+            var apiConfig = builder.Configuration.GetSection(nameof(ApiConfiguration)).Get<ApiConfiguration>();
+
+            if (apiConfig is not null)
+            {
+                builder.Services.AddSingleton(apiConfig);
+
+                builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = apiConfig?.JWTIssuer,
+                        ValidAudience = apiConfig?.JWTAudience,
+                        ClockSkew = TimeSpan.Zero,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(apiConfig.JWTSecret))
+                    };
+                });
+            }
+
             builder.Services.AddControllersWithViews();
             
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            
+
             var configuration = builder.Configuration.GetSection("DbContext");
 
             if (configuration.Value is null)
@@ -34,9 +63,9 @@ namespace jcBENCH.MVC
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
+
+            app.UseAuthentication();
             app.UseRouting();
-            
             app.UseAuthorization();
 
             app.MapControllerRoute(

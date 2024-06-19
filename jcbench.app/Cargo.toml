@@ -1,6 +1,6 @@
 [package]
 name = "jcbench"
-version = "2024.6.0"
+version.workspace = true
 edition = "2021"
 publish = false
 
@@ -19,3 +19,6 @@ members = [
 
 [dependencies]
 cli = { path = "./crates/cli" }
+
+[workspace.package]
+version = "2024.6.4"

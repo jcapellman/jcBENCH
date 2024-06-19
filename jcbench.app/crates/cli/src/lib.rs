@@ -3,7 +3,7 @@ use std::env;
 use benchmark_settings::parse_args;
 
 pub fn run() {
-	println!("jcBENCH 2024.6.2");
+	println!("jcBENCH {}", env!("CARGO_PKG_VERSION"));
 	println!("(C) 2012-2024 Jarred Capellman");
 	println!("Source code is available on https://github.com/jcapellman/jcBENCH");
 

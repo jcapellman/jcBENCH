@@ -14,10 +14,10 @@ pub struct BenchmarkRequest {
     pub cpu_name: String,
     pub cpu_architecture: String,
     pub cpu_cores: usize,
-    pub score: u32
+    pub score: i64
 }
 
-pub fn get_benchmark_request(selected_benchmark_name: String, selected_benchmark_api: usize, benchmark_settings: BenchmarkSettings, benchmark_result: u32) -> BenchmarkRequest {
+pub fn get_benchmark_request(selected_benchmark_name: String, selected_benchmark_api: usize, benchmark_settings: BenchmarkSettings, benchmark_result: i64) -> BenchmarkRequest {
     let cpu_info = CPUInfo::get_cpu_info();
 
     return BenchmarkRequest {

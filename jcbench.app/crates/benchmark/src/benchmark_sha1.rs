@@ -16,6 +16,10 @@ impl Benchmark for BenchmarkSHA1 {
 		return "True".to_string();
 	}
 
+	fn run_multi_threaded(&self) -> String {
+		todo!()
+	}
+
 	fn get_api_version(&self) -> usize {
 		return 2;
 	}

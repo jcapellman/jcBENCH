@@ -10,12 +10,18 @@ mod benchmark_sha1;
 pub trait Benchmark {
 	fn run(&self) -> String;
 
+    fn run_multi_threaded(&self) -> String;
+
     fn get_api_version(&self) -> usize;
 }
 
 impl Benchmark for Box<dyn Benchmark> {
     fn run(&self) -> String {
         self.deref().run()
+    }
+
+    fn run_multi_threaded(&self) -> String {
+        self.deref().run_multi_threaded()
     }
 
     fn get_api_version(&self) -> usize {
@@ -31,23 +37,42 @@ fn get_benchmark(selected_benchmark_name: String) -> Box<dyn Benchmark> {
     }
 }
 
-pub fn run_benchmark(selected_benchmark_name: String, settings: &BenchmarkSettings) -> (u32, usize) {
-    let selected_benchmark = get_benchmark(selected_benchmark_name);
-
+fn run_single_threaded(selected_benchmark: &Box<dyn Benchmark>, settings: &BenchmarkSettings) -> i64 {
     let start_time = chrono::offset::Local::now();
 
-    let mut number_iterations:u32 = 0;
+    let mut number_iterations:i64 = 0;
 
     while (chrono::offset::Local::now() - start_time).num_seconds() < settings.seconds_to_run
     {
         let _result = selected_benchmark.run();
-        
+
         if (chrono::offset::Local::now() - start_time).num_seconds() > settings.seconds_to_run
         {
             break;
         }
 
         number_iterations = number_iterations + 1;
+    }
+
+    return number_iterations;
+}
+
+fn run_multi_threaded(selected_benchmark: &Box<dyn Benchmark>) -> i64 {
+    let start_time = chrono::offset::Local::now();
+
+    let _ = selected_benchmark.run_multi_threaded();
+
+    return (chrono::offset::Local::now() - start_time).num_seconds();
+}
+
+pub fn run_benchmark(selected_benchmark_name: String, settings: &BenchmarkSettings) -> (i64, usize) {
+    let selected_benchmark = get_benchmark(selected_benchmark_name);
+
+    let number_iterations:i64;
+
+    match settings.multi_threaded {
+        false => number_iterations = run_single_threaded(&selected_benchmark, settings),
+        true => number_iterations = run_multi_threaded(&selected_benchmark)
     }
 
     return (number_iterations, selected_benchmark.get_api_version());

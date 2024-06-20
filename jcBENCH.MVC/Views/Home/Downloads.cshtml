@@ -13,15 +13,15 @@
     </p>
     
     @if (Model.Count > 0) {
-        <div class="card-header" style="background-color: gold; !important;padding-bottom: 0px !important">
-            <p class="card-subtitle" style="color: black;font-weight: bolder;">Latest Release</p>
+        <div class="card-header latest-release">
+            <p class="card-subtitle latest-release">Latest Release</p>
         </div>
 
         <partial name="_DownloadCard" model="Model.First()" />
     }
     
     <br/><br/>
-    <h4>Prior Releases</h4>
+    <h4 class="prior-releases">Prior Releases</h4>
     @foreach (var release in @Model.Skip(1))
     {
         <partial name="_DownloadCard" model="@release" />

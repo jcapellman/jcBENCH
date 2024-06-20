@@ -16,3 +16,19 @@ footer {
     text-align: center;
     font-size: x-small;
 }
+
+div.latest-release {
+    background-color: gold !important;
+    padding-bottom: 0px !important
+}
+
+p.latest-release {
+    color: black;
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+
+.prior-releases {
+    text-transform: uppercase;
+    font-weight: bold;
+}

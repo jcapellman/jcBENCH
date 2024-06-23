@@ -196,6 +196,7 @@ name = "cpuinfo"
 version = "0.1.0"
 dependencies = [
  "sysinfo",
+ "winreg",
 ]
 
 [[package]]

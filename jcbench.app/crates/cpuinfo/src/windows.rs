@@ -1,9 +1,15 @@
+#[cfg(target_os="windows")]
 use winreg::enums::*;
+
+#[cfg(target_os="windows")]
 use winreg::RegKey;
+
+#[cfg(target_os="windows")]
 use crate::{FALL_BACK_CPU_NAME, PlatformInfo};
 
 pub struct WindowsPlatformInfo { }
 
+#[cfg(target_os="windows")]
 impl PlatformInfo for WindowsPlatformInfo {
     fn get_cpu_name() -> String {
         let hive_key_local_machine = RegKey::predef(HKEY_LOCAL_MACHINE);

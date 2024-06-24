@@ -10,6 +10,8 @@ use crate::linux::LinuxPlatformInfo;
 use sysinfo::System;
 use std::env;
 
+pub const FALL_BACK_CPU_NAME: &str = "(Unknown CPU)";
+
 pub struct CurrentCPUInfo {
     pub model_name: String,
     pub num_cores: usize,
@@ -30,7 +32,7 @@ impl CPUInfo {
         sys.refresh_all();
 
         let mut cpu_info = CurrentCPUInfo {
-            model_name: "Unknown".to_string(),
+            model_name: FALL_BACK_CPU_NAME.to_string(),
             num_cores: sys.cpus().len(),
             architecture: env::consts::ARCH.to_string()
         };

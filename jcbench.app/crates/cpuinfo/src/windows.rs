@@ -1,6 +1,6 @@
 use winreg::enums::*;
 use winreg::RegKey;
-use crate::PlatformInfo;
+use crate::{FALL_BACK_CPU_NAME, PlatformInfo};
 
 pub struct WindowsPlatformInfo { }
 
@@ -9,8 +9,8 @@ impl PlatformInfo for WindowsPlatformInfo {
         let hive_key_local_machine = RegKey::predef(HKEY_LOCAL_MACHINE);
 
         return match hive_key_local_machine.open_subkey(r"HARDWARE\DESCRIPTION\System\CentralProcessor\0") {
-            Err(_e) => return "(Unknown CPU)".to_string(),
-            Ok(registry_key) => registry_key.get_value("ProcessorNameString").unwrap()
+            Err(_e) => return FALL_BACK_CPU_NAME.to_string(),
+            Ok(registry_key) => registry_key.get_value("ProcessorNameString").unwrap_or(FALL_BACK_CPU_NAME.to_string())
         };
     }
 }

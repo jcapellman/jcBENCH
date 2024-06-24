@@ -3,9 +3,11 @@ use std::collections::HashMap;
 
 use crate::PlatformInfo;
 
+const CPU_INFO_KEYS: [&str; 2] = ["uarch", "model name"];
+
 pub struct LinuxPlatformInfo { }
 
-fn read_proc_cpuinfo() -> HashMap<String, String> {
+fn read_proc_cpu_info() -> HashMap<String, String> {
     let mut dict = HashMap::new();
 
     for line in read_to_string("/proc/cpuinfo").unwrap().lines() {
@@ -24,30 +26,20 @@ fn read_proc_cpuinfo() -> HashMap<String, String> {
     return dict;
 }
 
-fn get_key(info: HashMap<String, String>, key: &str) -> String {
-    let key = info.get(key);
+fn get_key(info: HashMap<String, String>, keys: &[&str]) -> Option<String> {
+    for &key in keys {
+        let key = info.get(key);
 
-    if key == None {
-        return "".to_string();
+        if key != None {
+            return Some(key.unwrap().to_string());
+        }
     }
 
-    return key.unwrap().to_string();
+    return None;
 }
 
 impl PlatformInfo for LinuxPlatformInfo {
     fn get_cpu_name() -> String {
-        let proc_cpuinfo = read_proc_cpuinfo();
-
-        let mut cpu_name = get_key(proc_cpuinfo.clone(), "uarch");
-
-        if cpu_name == "" {
-            cpu_name = get_key(proc_cpuinfo.clone(), "model name");
-        }
-
-        if cpu_name == "" {
-            return "Unknown".to_string();
-        }
-
-        return cpu_name;
+        return get_key(read_proc_cpu_info(), &CPU_INFO_KEYS).unwrap_or_else(|| crate::FALL_BACK_CPU_NAME.to_string());
     }
 }

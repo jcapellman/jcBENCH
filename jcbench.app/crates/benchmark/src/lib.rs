@@ -42,16 +42,20 @@ fn run_single_threaded(selected_benchmark: &Box<dyn Benchmark>, settings: &Bench
 
     let mut number_iterations:i64 = 0;
 
-    while (chrono::offset::Local::now() - start_time).num_seconds() < settings.seconds_to_run
+    loop
     {
-        let _result = selected_benchmark.run_single_threaded();
+        let result = selected_benchmark.run_single_threaded();
+
+        if result.is_empty() {
+            break;
+        }
+
+        number_iterations = number_iterations + 1;
 
         if (chrono::offset::Local::now() - start_time).num_seconds() > settings.seconds_to_run
         {
             break;
         }
-
-        number_iterations = number_iterations + 1;
     }
 
     return number_iterations;

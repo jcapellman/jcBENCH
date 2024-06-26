@@ -8,7 +8,7 @@ mod benchmark_md5;
 mod benchmark_sha1;
 
 pub trait Benchmark {
-	fn run(&self) -> String;
+	fn run_single_threaded(&self) -> String;
 
     fn run_multi_threaded(&self) -> String;
 
@@ -16,8 +16,8 @@ pub trait Benchmark {
 }
 
 impl Benchmark for Box<dyn Benchmark> {
-    fn run(&self) -> String {
-        self.deref().run()
+    fn run_single_threaded(&self) -> String {
+        self.deref().run_single_threaded()
     }
 
     fn run_multi_threaded(&self) -> String {
@@ -44,7 +44,7 @@ fn run_single_threaded(selected_benchmark: &Box<dyn Benchmark>, settings: &Bench
 
     while (chrono::offset::Local::now() - start_time).num_seconds() < settings.seconds_to_run
     {
-        let _result = selected_benchmark.run();
+        let _result = selected_benchmark.run_single_threaded();
 
         if (chrono::offset::Local::now() - start_time).num_seconds() > settings.seconds_to_run
         {

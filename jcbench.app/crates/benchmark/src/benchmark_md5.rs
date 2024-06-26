@@ -8,10 +8,8 @@ use rand::Rng;
 pub struct BenchmarkMD5 { }
 
 impl Benchmark for BenchmarkMD5 {
-	fn run(&self) -> String {
-		let _result = md5::compute(chrono::offset::Local::now().to_string());
-
-		return "True".to_string();
+	fn run_single_threaded(&self) -> String {
+		return format!("{:x}", md5::compute(chrono::offset::Local::now().to_string())).to_string();
 	}
 
 	fn run_multi_threaded(&self) -> String {

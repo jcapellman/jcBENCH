@@ -37,11 +37,18 @@ pub fn submit_benchmark_result(benchmark_request: BenchmarkRequest) -> bool {
 
     let client = reqwest::blocking::Client::new();
 
-    let response = client.post("https://www.jcbench.com/api/ResultSubmission")
+    return match client.post("https://www.jcbench.com/api/ResultSubmission")
         .json(&benchmark_request)
-        .send().unwrap();
+        .send() {
+            Err(error) => {
+                println!("Error while submitting result: {error:?}");
 
-    return response.status() == 200;
+                false
+            },
+            Ok(response) => {
+                response.status() == 200
+            }
+        }
 }
 
 pub fn print_benchmark_request(benchmark_request: &BenchmarkRequest) {

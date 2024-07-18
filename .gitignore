@@ -1,7 +1,1 @@
-bin/
-obj/
-.vs/
-Debug/*
-Release/*
-*.user
-jcbench.app/target/*
+target/*

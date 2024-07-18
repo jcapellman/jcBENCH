@@ -3,11 +3,9 @@
 
 Cross-platform RUST CPU Benchmarking Tool.
 
-![Screenshot](https://raw.githubusercontent.com/jcapellman/jcbench/master/screenshot.png)
-
 The platform is composed of two components:
-- ASP.NET 8 MVC/WebAPI App
-- RUST CLI App
+- ASP.NET 8 MVC/WebAPI App (https://github.com/jcapellman/jcBENCH-Web)
+- RUST CLI App (This repository)
 
 ## Benchmarks
 Currently implementing two different benchmarks of your CPU:

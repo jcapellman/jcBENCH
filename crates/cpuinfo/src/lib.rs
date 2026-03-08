@@ -18,8 +18,7 @@ pub struct CurrentCPUInfo {
     pub architecture: String
 }
 
-pub struct CPUInfo {
-}
+pub struct CPUInfo;
 
 pub trait PlatformInfo {
     fn get_cpu_name() -> String;
@@ -28,7 +27,7 @@ pub trait PlatformInfo {
 impl CPUInfo {
     pub fn get_cpu_info() -> CurrentCPUInfo {
         let mut sys = System::new_all();
-    
+
         sys.refresh_all();
 
         let mut cpu_info = CurrentCPUInfo {
@@ -36,15 +35,15 @@ impl CPUInfo {
             num_cores: sys.cpus().len(),
             architecture: env::consts::ARCH.to_string()
         };
-        
+
         #[cfg(target_os="linux")] {
             cpu_info.model_name = LinuxPlatformInfo::get_cpu_name();
         }
-        
+
         #[cfg(target_os="windows")] {
             cpu_info.model_name = WindowsPlatformInfo::get_cpu_name();
         } 
-        
-        return cpu_info;
+
+        cpu_info
     }
 }

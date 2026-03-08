@@ -4,16 +4,17 @@ use benchmark_settings::parse_args;
 
 pub fn run() {
 	println!("jcBENCH {}", env!("CARGO_PKG_VERSION"));
-	println!("(C) 2012-2024 Jarred Capellman");
+	println!("(C) 2012-2026 Jarred Capellman");
 	println!("Source code is available on https://github.com/jcapellman/jcBENCH");
 
-    let args: Vec<String> = env::args().collect();
+	let args: Vec<String> = env::args().collect();
 
-    let settings = parse_args(args);
-    
-    let (benchmark_score, benchmark_api_version) = benchmark::run_benchmark(settings.selected_benchmark.to_string(), &settings);
+	let settings = parse_args(args);
 
-    let benchmark_result = benchmark_submission::get_benchmark_request(settings.selected_benchmark.to_string(), benchmark_api_version, settings, benchmark_score);
+	let benchmark_name = settings.selected_benchmark.to_string();
+	let (benchmark_score, benchmark_api_version) = benchmark::run_benchmark(&benchmark_name, &settings);
+
+	let benchmark_result = benchmark_submission::get_benchmark_request(&benchmark_name, benchmark_api_version, settings, benchmark_score);
 
     benchmark_submission::print_benchmark_request(&benchmark_result);
     

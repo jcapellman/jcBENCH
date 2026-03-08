@@ -17,10 +17,10 @@ pub struct BenchmarkRequest {
     pub score: i64
 }
 
-pub fn get_benchmark_request(selected_benchmark_name: String, selected_benchmark_api: usize, benchmark_settings: BenchmarkSettings, benchmark_result: i64) -> BenchmarkRequest {
+pub fn get_benchmark_request(selected_benchmark_name: &str, selected_benchmark_api: usize, benchmark_settings: BenchmarkSettings, benchmark_result: i64) -> BenchmarkRequest {
     let cpu_info = CPUInfo::get_cpu_info();
 
-    return BenchmarkRequest {
+    BenchmarkRequest {
         cpu_cores: cpu_info.num_cores,
         cpu_name: cpu_info.model_name,
         cpu_architecture: cpu_info.architecture,
@@ -29,7 +29,7 @@ pub fn get_benchmark_request(selected_benchmark_name: String, selected_benchmark
         benchmark_name: selected_benchmark_name.to_string(),
         benchmark_api_version: selected_benchmark_api,
         benchmark_threading_model: if benchmark_settings.multi_threaded { "Multi".to_string() } else { "Single".to_string() }
-    };
+    }
 }
 
 pub fn submit_benchmark_result(benchmark_request: BenchmarkRequest) -> bool {
@@ -37,7 +37,7 @@ pub fn submit_benchmark_result(benchmark_request: BenchmarkRequest) -> bool {
 
     let client = reqwest::blocking::Client::new();
 
-    return match client.post("https://www.jcbench.com/api/ResultSubmission")
+    match client.post("https://www.jcbench.com/api/ResultSubmission")
         .json(&benchmark_request)
         .send() {
             Err(error) => {
@@ -46,7 +46,7 @@ pub fn submit_benchmark_result(benchmark_request: BenchmarkRequest) -> bool {
                 false
             },
             Ok(response) => {
-                response.status() == 200
+                response.status().is_success()
             }
         }
 }

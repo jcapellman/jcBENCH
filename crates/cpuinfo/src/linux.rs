@@ -8,7 +8,7 @@ const CPU_INFO_KEYS: [&str; 2] = ["uarch", "model name"];
 
 const FILE_NAME_CPU_INFO: &str = "/proc/cpuinfo";
 
-pub struct LinuxPlatformInfo { }
+pub struct LinuxPlatformInfo;
 
 fn convert_file_to_hash_map(file_string: String) -> HashMap<String, String> {
     let mut dict = HashMap::new();
@@ -26,7 +26,7 @@ fn convert_file_to_hash_map(file_string: String) -> HashMap<String, String> {
         dict.entry(key.to_string()).or_insert(value.to_string());
     }
 
-    return dict;
+    dict
 }
 
 fn read_proc_cpu_info() -> HashMap<String, String> {
@@ -36,26 +36,24 @@ fn read_proc_cpu_info() -> HashMap<String, String> {
 
     let file_string_result = read_to_string(FILE_NAME_CPU_INFO);
 
-    return match file_string_result {
+    match file_string_result {
         Ok(file_string) => convert_file_to_hash_map(file_string),
         Err(error) => panic!("Could not read CPU INFO ({error:?}")
-    };
+    }
 }
 
 fn get_key(info: HashMap<String, String>, keys: &[&str]) -> Option<String> {
     for &key in keys {
-        let key = info.get(key);
-
-        if key != None {
-            return Some(key.unwrap().to_string());
+        if let Some(value) = info.get(key) {
+            return Some(value.to_string());
         }
     }
 
-    return None;
+    None
 }
 
 impl PlatformInfo for LinuxPlatformInfo {
     fn get_cpu_name() -> String {
-        return get_key(read_proc_cpu_info(), &CPU_INFO_KEYS).unwrap_or_else(|| crate::FALL_BACK_CPU_NAME.to_string());
+        get_key(read_proc_cpu_info(), &CPU_INFO_KEYS).unwrap_or_else(|| crate::FALL_BACK_CPU_NAME.to_string())
     }
 }

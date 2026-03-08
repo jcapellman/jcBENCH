@@ -30,7 +30,10 @@ pub fn parse_args(args: Vec<String>) -> BenchmarkSettings {
                     }
                 },
                 "duration" => {
-                    settings.seconds_to_run = i64::from_str_radix(args[x+1].as_str(), 10).unwrap();
+                    match args[x+1].parse::<i64>() {
+                        Ok(duration) => settings.seconds_to_run = duration,
+                        Err(_) => eprintln!("Invalid duration argument...using default"),
+                    }
                 },
                 "threading" => {
                     match args[x+1].as_str() {
@@ -47,6 +50,6 @@ pub fn parse_args(args: Vec<String>) -> BenchmarkSettings {
     } else {
         println!("No or invalid arguments passed in...running defaults...");
     }
-    
-    return settings;
+
+    settings
 }
